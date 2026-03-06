@@ -1,7 +1,101 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\RoomController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\ContractController;
+use App\Http\Controllers\PaymentMethodController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminController; // <--- ĐÃ THÊM DÒNG NÀY ĐỂ GỌI ADMIN CONTROLLER
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+// ==========================================
+// CÁC ĐƯỜNG DẪN CÔNG KHAI (KHÔNG CẦN ĐĂNG NHẬP)
+// ==========================================
+
+// --- DÀNH CHO NGƯỜI THUÊ BÌNH THƯỜNG ---
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+
+// --- DÀNH RIÊNG CHO ADMIN ---
+// Đường dẫn mở form đăng nhập Admin (Giao diện Figma)
+Route::get('/admin/login', [AuthController::class, 'showAdminLoginForm'])->name('admin.login');
+// Đường dẫn xử lý dữ liệu đăng nhập của Admin
+Route::post('/admin/login', [AuthController::class, 'adminLoginPost'])->name('admin.login.post');
+
+
+// ==========================================
+// VÙNG CẤM (BẮT BUỘC PHẢI ĐĂNG NHẬP MỚI ĐƯỢC VÀO)
+// ==========================================
+// ĐÃ SỬA LẠI Ổ KHÓA: Từ 'auth:admin' thành 'auth'
+Route::middleware('auth')->group(function () {
+
+    // Trang Dashboard (Tổng quan) - ĐÃ TRỎ VÀO ADMIN CONTROLLER ĐỂ LẤY SỐ LIỆU ĐẾM PHÒNG
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+
+    // Đường dẫn đăng xuất
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    // User
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+    Route::post('/users', [UserController::class, 'store'])->name('users.store');
+    Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
+    Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+
+    // Room
+    Route::get('/rooms', [RoomController::class, 'index'])->name('rooms.index');
+    Route::get('/rooms/create', [RoomController::class, 'create'])->name('rooms.create');
+    Route::post('/rooms', [RoomController::class, 'store'])->name('rooms.store');
+    Route::get('/rooms/{room}/edit', [RoomController::class, 'edit'])->name('rooms.edit');
+    Route::put('/rooms/{room}', [RoomController::class, 'update'])->name('rooms.update');
+    Route::delete('/rooms/{room}', [RoomController::class, 'destroy'])->name('rooms.destroy');
+
+    // Payment Methods
+    Route::get('/payment_methods', [PaymentMethodController::class, 'index'])->name('payment_methods.index');
+    Route::get('/payment_methods/create', [PaymentMethodController::class, 'create'])->name('payment_methods.create');
+    Route::post('/payment_methods', [PaymentMethodController::class, 'store'])->name('payment_methods.store');
+    Route::get('/payment_methods/{payment_method}/edit', [PaymentMethodController::class, 'edit'])->name('payment_methods.edit');
+    Route::put('/payment_methods/{payment_method}', [PaymentMethodController::class, 'update'])->name('payment_methods.update');
+    Route::delete('/payment_methods/{payment_method}', [PaymentMethodController::class, 'destroy'])->name('payment_methods.destroy');
+
+    // Service
+    Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
+    Route::get('/services/create', [ServiceController::class, 'create'])->name('services.create');
+    Route::post('/services', [ServiceController::class, 'store'])->name('services.store');
+    Route::get('/services/{service}/edit', [ServiceController::class, 'edit'])->name('services.edit');
+    Route::put('/services/{service}', [ServiceController::class, 'update'])->name('services.update');
+    Route::delete('/services/{service}', [ServiceController::class, 'destroy'])->name('services.destroy');
+
+    // Contracts
+    Route::get('/contracts', [ContractController::class, 'index'])->name('contracts.index');
+    Route::get('/contracts/create', [ContractController::class, 'create'])->name('contracts.create');
+    Route::post('/contracts', [ContractController::class, 'store'])->name('contracts.store');
+    Route::get('/contracts/{contract}/edit', [ContractController::class, 'edit'])->name('contracts.edit');
+    Route::put('/contracts/{contract}', [ContractController::class, 'update'])->name('contracts.update');
+    Route::delete('/contracts/{contract}', [ContractController::class, 'destroy'])->name('contracts.destroy');
+
+    // Invoices
+    Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices.index');
+    Route::get('/invoices/create', [InvoiceController::class, 'create'])->name('invoices.create');
+    Route::post('/invoices', [InvoiceController::class, 'store'])->name('invoices.store');
+    Route::get('/invoices/{invoice}/edit', [InvoiceController::class, 'edit'])->name('invoices.edit');
+    Route::put('/invoices/{invoice}', [InvoiceController::class, 'update'])->name('invoices.update');
+    Route::delete('/invoices/{invoice}', [InvoiceController::class, 'destroy'])->name('invoices.destroy');
+
+    // Payments
+    Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
+    Route::get('/payments/create', [PaymentController::class, 'create'])->name('payments.create');
+    Route::post('/payments', [PaymentController::class, 'store'])->name('payments.store');
+    Route::get('/payments/{payment}/edit', [PaymentController::class, 'edit'])->name('payments.edit');
+    Route::put('/payments/{payment}', [PaymentController::class, 'update'])->name('payments.update');
+    Route::delete('/payments/{payment}', [PaymentController::class, 'destroy'])->name('payments.destroy');
+
 });

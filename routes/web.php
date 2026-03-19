@@ -33,3 +33,38 @@ Route::post('/services', [\App\Http\Controllers\ServiceController::class, 'store
 Route::get('/services/{service}/edit', [\App\Http\Controllers\ServiceController::class, 'edit'])->name('services.edit');
 Route::put('/services/{service}', [\App\Http\Controllers\ServiceController::class, 'update'])->name('services.update');
 Route::delete('services/{service}', [\App\Http\Controllers\ServiceController::class, 'destroy'])->name('services.destroy');
+
+//Contact
+Route::get('/contracts', [\App\Http\Controllers\ContractController::class, 'index'])->name('contracts.index');
+Route::get('/contracts/create', [\App\Http\Controllers\ContractController::class, 'create'])->name('contracts.create');
+Route::post('/contracts', [\App\Http\Controllers\ContractController::class, 'store'])->name('contracts.store');
+Route::get('/contracts/{contract}/edit', [\App\Http\Controllers\ContractController::class, 'edit'])->name('contracts.edit');
+Route::put('/contracts/{contract}', [\App\Http\Controllers\ContractController::class, 'update'])->name('contracts.update');
+Route::delete('contracts/{contract}', [\App\Http\Controllers\ContractController::class, 'destroy'])->name('contracts.destroy');
+
+//Service Detail
+Route::controller(\App\Http\Controllers\ServiceDetailController::class)
+    ->name('serviceDetails.')
+    ->prefix('/serviceDetails')
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+
+        Route::get('/{service_id}/{room_id}/edit', 'edit')->name('edit');
+        Route::put('/{service_id}/{room_id}', 'update')->name('update');
+        Route::delete('/{service_id}/{room_id}', 'destroy')->name('destroy');
+    });
+
+//Invoice
+Route::controller(\App\Http\Controllers\InvoiceController::class)
+    ->name('invoices.')
+    ->prefix('/invoices')
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+        Route::get('/{invoice}/edit', 'edit')->name('edit');
+        Route::put('/{invoice}', 'update')->name('update');
+        Route::delete('/{invoice}', 'destroy')->name('destroy');
+});

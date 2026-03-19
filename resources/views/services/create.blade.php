@@ -7,12 +7,12 @@
     <title>Document</title>
 </head>
 <body>
-<h3>Add a payment method</h3>
-<form method="post" action="{{ route('payment_methods.store') }}">
+<h3>Add a service</h3>
+<form method="post" action="{{ route('services.store') }}">
     @csrf
     Name: <input type="text" name="name"><br>
-    Code: <input type="text" name="code"><br>
-    Description: <input type="text" name="description"><br>
+    Unit Price: <input type="number" name="unit_price"><br>
+    Unit Name: <input type="text" name="unit_name"><br>
     <button>Add</button>
 </form>
 </body>

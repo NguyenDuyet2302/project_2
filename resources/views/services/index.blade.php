@@ -7,36 +7,36 @@
     <title>Document</title>
 </head>
 <body>
-<h3>Payment method List</h3>
-<a href="{{ route('payment_methods.create')}}">Add a payment methods</a>
+<h3>Services List</h3>
+<a href="{{ route('services.create')}}">Add a services</a>
 <table border="1px" cellpadding="0" cellspacing="0" width="100%">
     <tr>
         <th>ID</th>
         <th>Name</th>
-        <th>Code</th>
-        <th>Desc</th>
+        <th>Unit Price</th>
+        <th>Unit Name</th>
         <th></th>
         <th></th>
     </tr>
-    @foreach($paymentMethods as $payment_method)
+    @foreach($services as $service)
         <tr>
             <td>
-                {{ $payment_method->id }}
+                {{ $service->id }}
             </td>
             <td>
-                {{ $payment_method->name }}
+                {{ $service->name }}
             </td>
             <td>
-                {{ $payment_method->code }}
+                {{ $service->unit_price }}
             </td>
             <td>
-                {{ $payment_method->description }}
+                {{ $service->unit_name }}
             </td>
             <td>
-                <a href="{{ route('payment_methods.edit', $payment_method->id) }}">Edit</a>
+                <a href="{{ route('services.edit', $service->id) }}">Edit</a>
             </td>
             <td>
-                <form method="post" action="{{ route('payment_methods.destroy', $payment_method->id) }}">
+                <form method="post" action="{{ route('services.destroy', $service->id) }}">
                     @csrf
                     @method('DELETE')
                     <button>Delete</button>

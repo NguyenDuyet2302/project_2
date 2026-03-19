@@ -13,4 +13,7 @@ class Service extends Model
     protected $primaryKey = 'id';
     protected $fillable = ['name', 'unit_price', 'unit_name'];
     public $timestamps = false;
+    public function serviceDetails(){
+        return $this->hasMany(ServiceDetail::class);
+    }
 }

@@ -15,4 +15,7 @@ class User extends Authenticatable
     protected $primaryKey = 'id';
     protected $fillable = ['fullname', 'email', 'password', 'phone', 'id_card', 'address', 'role'];
     public $timestamps = false;
+    public function contacts(){
+        return $this->hasMany(Contract::class);
+    }
 }

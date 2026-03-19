@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Contract;
 use App\Http\Requests\StoreContractRequest;
 use App\Http\Requests\UpdateContractRequest;
+use App\Models\Room;
+use App\Models\User;
 
 class ContractController extends Controller
 {
@@ -14,6 +16,8 @@ class ContractController extends Controller
     public function index()
     {
         //
+        $contracts = Contract::all();
+        return view('contracts.index', ['contracts' => $contracts]);
     }
 
     /**
@@ -22,6 +26,10 @@ class ContractController extends Controller
     public function create()
     {
         //
+        $contracts = Contract::all();
+        $users = User::all();
+        $rooms = Room::all();
+        return view('contracts.create', ['contracts' => $contracts, 'users' => $users, 'rooms' => $rooms]);
     }
 
     /**
@@ -30,6 +38,8 @@ class ContractController extends Controller
     public function store(StoreContractRequest $request)
     {
         //
+        Contract::create($request->all());
+        return Redirect()->route('contracts.index');
     }
 
     /**
@@ -46,6 +56,9 @@ class ContractController extends Controller
     public function edit(Contract $contract)
     {
         //
+        $rooms = Room::all();
+        $users = User::all();
+        return view('contracts.edit', ['contract' => $contract, 'rooms' => $rooms, 'users' => $users]);
     }
 
     /**
@@ -54,6 +67,8 @@ class ContractController extends Controller
     public function update(UpdateContractRequest $request, Contract $contract)
     {
         //
+        $contract->update($request->all());
+        return Redirect()->route('contracts.index');
     }
 
     /**
@@ -62,5 +77,7 @@ class ContractController extends Controller
     public function destroy(Contract $contract)
     {
         //
+        $contract->delete();
+        return Redirect()->route('contracts.index');
     }
 }

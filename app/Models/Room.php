@@ -13,4 +13,11 @@ class Room extends Model
     protected $primaryKey = 'id';
     protected $fillable = ['number', 'price', 'status', 'description', 'max_people'];
     public $timestamps = false;
+
+    public function contacts(){
+        return $this->hasMany(Contract::class);
+    }
+    public function serviceDetails(){
+        return $this->hasMany(ServiceDetail::class);
+    }
 }

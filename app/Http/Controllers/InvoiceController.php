@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Contract;
 use App\Models\Invoice;
 use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
@@ -14,6 +15,8 @@ class InvoiceController extends Controller
     public function index()
     {
         //
+        $invoices = Invoice::all();
+        return view('invoices.index', ['invoices' => $invoices]);
     }
 
     /**
@@ -22,6 +25,9 @@ class InvoiceController extends Controller
     public function create()
     {
         //
+        $invoice = Invoice::all();
+        $contracts = Contract::with('user')->get();
+        return view('invoices.create', ['invoice' => $invoice, 'contracts' => $contracts]);
     }
 
     /**
@@ -30,6 +36,8 @@ class InvoiceController extends Controller
     public function store(StoreInvoiceRequest $request)
     {
         //
+        Invoice::create($request->all());
+        return Redirect()->route('invoices.index');
     }
 
     /**
@@ -46,6 +54,8 @@ class InvoiceController extends Controller
     public function edit(Invoice $invoice)
     {
         //
+        $contracts = Contract::with('user')->get();
+        return view('invoices.edit', ['invoice' => $invoice, 'contracts' => $contracts]);
     }
 
     /**
@@ -54,6 +64,8 @@ class InvoiceController extends Controller
     public function update(UpdateInvoiceRequest $request, Invoice $invoice)
     {
         //
+        $invoice->update($request->all());
+        return Redirect()->route('invoices.index');
     }
 
     /**
@@ -62,5 +74,7 @@ class InvoiceController extends Controller
     public function destroy(Invoice $invoice)
     {
         //
+        $invoice->delete();
+        return Redirect()->route('invoices.index');
     }
 }

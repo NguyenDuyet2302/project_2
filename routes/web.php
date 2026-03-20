@@ -68,3 +68,16 @@ Route::controller(\App\Http\Controllers\InvoiceController::class)
         Route::put('/{invoice}', 'update')->name('update');
         Route::delete('/{invoice}', 'destroy')->name('destroy');
 });
+
+//Payments
+Route::controller(\App\Http\Controllers\PaymentController::class)
+    ->name('payments.')
+    ->prefix('/payments')
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+        Route::get('/{payment}/edit', 'edit')->name('edit');
+        Route::put('/{payment}', 'update')->name('update');
+        Route::delete('/{payment}', 'destroy')->name('destroy');
+    });

@@ -13,4 +13,8 @@ class PaymentMethod extends Model
     protected $primaryKey = 'id';
     protected $fillable = ['name', 'code', 'description'];
     public $timestamps = false;
+
+    public function payment(){
+        return $this->hasMany(Payment::class);
+    }
 }

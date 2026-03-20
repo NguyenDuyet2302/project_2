@@ -17,4 +17,7 @@ class Invoice extends Model
     public function contract(){
         return $this->belongsTo(Contract::class);
     }
+    public function payment(){
+        return $this->hasMany(Payment::class);
+    }
 }

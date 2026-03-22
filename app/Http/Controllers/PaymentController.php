@@ -62,7 +62,7 @@ class PaymentController extends Controller
         //
         $invoices = Invoice::all();
         $paymentMethods = PaymentMethod::all();
-        return view('payments.edit', ['payment' => $payment, 'invoice' => $invoices, 'paymentMethods' => $paymentMethods]);
+        return view('payments.edit', ['payment' => $payment, 'invoices' => $invoices, 'paymentMethods' => $paymentMethods]);
     }
 
     /**

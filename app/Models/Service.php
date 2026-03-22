@@ -16,4 +16,8 @@ class Service extends Model
     public function serviceDetails(){
         return $this->hasMany(ServiceDetail::class);
     }
+
+    public function invoiceDetail(){
+        return $this->hasMany(InvoiceDetail::class);
+    }
 }

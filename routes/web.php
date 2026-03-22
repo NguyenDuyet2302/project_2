@@ -81,3 +81,16 @@ Route::controller(\App\Http\Controllers\PaymentController::class)
         Route::put('/{payment}', 'update')->name('update');
         Route::delete('/{payment}', 'destroy')->name('destroy');
     });
+
+//Invoice Detail
+Route::controller(\App\Http\Controllers\InvoiceDetailController::class)
+    ->name('invoiceDetails.')
+    ->prefix('/invoiceDetails')
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+        Route::get('/{service_id}/{invoice_id}/edit', 'edit')->name('edit');
+        Route::put('/{service_id}/{invoice_id}', 'update')->name('update');
+        Route::delete('/{service_id}/{invoice_id}', 'destroy')->name('destroy');
+    });

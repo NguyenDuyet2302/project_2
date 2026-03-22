@@ -20,16 +20,17 @@
         @endforeach
     </select><br>
 
-    <label>Payment Method</label>
-    <select name="paymentMethod_id" class="form-control">
-        <option value="">-- Choose paymentMethod --</option>
+
+    <label>Payment Method:</label>
+    <select name="payment_method_id" class="form-control">
+        <option value="">-- Choose method --</option>
         @foreach($paymentMethods as $paymentMethod)
-            <option value="{{ $aymentMethod->id }} @selected(old('invoice_id', $payment->paymentMethod_id) == $paymentMethod->id)">
-                Payment Method: {{ $paymentMethod->id }}
+            <option value="{{ $paymentMethod->id }}" $paymentMethod>
+                {{ $paymentMethod->name ?? 'Method ' . $paymentMethod->id }}
             </option>
         @endforeach
     </select><br>
-    Amount: <input type="number" name="amount" value="{{ $invoice->amount }}"><br>
+    Amount: <input type="number" name="amount" value="{{ $payment->amount }}" ><br>
     <button type="submit">Update</button>
 </form>
 </body>

@@ -3,44 +3,69 @@
 use Illuminate\Support\Facades\Route;
 
 //User
-Route::get('/users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
-Route::get('/users/create', [\App\Http\Controllers\UserController::class, 'create'])->name('users.create');
-Route::post('/users', [\App\Http\Controllers\UserController::class, 'store'])->name('users.store');
-Route::get('/users/{user}/edit', [\App\Http\Controllers\UserController::class, 'edit'])->name('users.edit');
-Route::put('/users/{user}', [\App\Http\Controllers\UserController::class, 'update'])->name('users.update');
-Route::delete('/users/{user}', [\App\Http\Controllers\UserController::class, 'destroy'])->name('users.destroy');
+Route::controller(\App\Http\Controllers\UserController::class)
+    ->name('users.')
+    ->prefix('/users')
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+        Route::get('/{user}/edit', 'edit')->name('edit');
+        Route::put('/{user}', 'update')->name('update');
+        Route::delete('/{user}', 'destroy')->name('destroy');
+    });
 
 //Room
-Route::get('/rooms', [\App\Http\Controllers\RoomController::class, 'index'])->name('rooms.index');
-Route::get('/rooms/create', [\App\Http\Controllers\RoomController::class, 'create'])->name('rooms.create');
-Route::post('/rooms', [\App\Http\Controllers\RoomController::class, 'store'])->name('rooms.store');
-Route::get('/rooms/{room}/edit', [\App\Http\Controllers\RoomController::class, 'edit'])->name('rooms.edit');
-Route::put('/rooms/{room}', [\App\Http\Controllers\RoomController::class, 'update'])->name('rooms.update');
-Route::delete('/rooms/{room}', [\App\Http\Controllers\RoomController::class, 'destroy'])->name('rooms.destroy');
+Route::controller(\App\Http\Controllers\RoomController::class)
+    ->name('rooms.')
+    ->prefix('/rooms')
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+        Route::get('/{room}/edit', 'edit')->name('edit');
+        Route::put('/{room}', 'update')->name('update');
+        Route::delete('/{room}', 'destroy')->name('destroy');
+    });
 
 //Paymentmethods
-Route::get('/payment_methods', [\App\Http\Controllers\PaymentMethodController::class, 'index'])->name('payment_methods.index');
-Route::get('/payment_methods/create', [\App\Http\Controllers\PaymentMethodController::class, 'create'])->name('payment_methods.create');
-Route::post('/payment_methods', [\App\Http\Controllers\PaymentMethodController::class, 'store'])->name('payment_methods.store');
-Route::get('payment_methods/{payment_method}/edit', [\App\Http\Controllers\PaymentMethodController::class, 'edit'])->name('payment_methods.edit');
-Route::put('payment_methods/{payment_method}', [\App\Http\Controllers\PaymentMethodController::class, 'update'])->name('payment_methods.update');
-Route::delete('payment_methods/{payment_method}', [\App\Http\Controllers\PaymentMethodController::class, 'destroy'])->name('payment_methods.destroy');
+Route::controller(\App\Http\Controllers\PaymentMethodController::class)
+    ->name('payment_methods.')
+    ->prefix('/payment_methods')
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+        Route::get('/{payment_method}/edit', 'edit')->name('edit');
+        Route::put('/{payment_method}', 'update')->name('update');
+        Route::delete('/{payment_method}', 'destroy')->name('destroy');
+    });
 
 //Service
-Route::get('/services', [\App\Http\Controllers\ServiceController::class, 'index'])->name('services.index');
-Route::get('/services/create', [\App\Http\Controllers\ServiceController::class, 'create'])->name('services.create');
-Route::post('/services', [\App\Http\Controllers\ServiceController::class, 'store'])->name('services.store');
-Route::get('/services/{service}/edit', [\App\Http\Controllers\ServiceController::class, 'edit'])->name('services.edit');
-Route::put('/services/{service}', [\App\Http\Controllers\ServiceController::class, 'update'])->name('services.update');
-Route::delete('services/{service}', [\App\Http\Controllers\ServiceController::class, 'destroy'])->name('services.destroy');
+Route::controller(\App\Http\Controllers\ServiceController::class)
+    ->name('services.')
+    ->prefix('/services')
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+        Route::get('/{service}/edit', 'edit')->name('edit');
+        Route::put('/{service}', 'update')->name('update');
+        Route::delete('/{service}', 'destroy')->name('destroy');
+    });
 
 //Contact
-Route::get('/contracts', [\App\Http\Controllers\ContractController::class, 'index'])->name('contracts.index');
-Route::get('/contracts/create', [\App\Http\Controllers\ContractController::class, 'create'])->name('contracts.create');
-Route::post('/contracts', [\App\Http\Controllers\ContractController::class, 'store'])->name('contracts.store');
-Route::get('/contracts/{contract}/edit', [\App\Http\Controllers\ContractController::class, 'edit'])->name('contracts.edit');
-Route::put('/contracts/{contract}', [\App\Http\Controllers\ContractController::class, 'update'])->name('contracts.update');
-Route::delete('contracts/{contract}', [\App\Http\Controllers\ContractController::class, 'destroy'])->name('contracts.destroy');
+Route::controller(\App\Http\Controllers\ContractController::class)
+    ->name('contracts.')
+    ->prefix('/contracts')
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+        Route::get('/{contract}/edit', 'edit')->name('edit');
+        Route::put('/{contract}', 'update')->name('update');
+        Route::delete('/{contract}', 'destroy')->name('destroy');
+    });
 
 //Service Detail
 Route::controller(\App\Http\Controllers\ServiceDetailController::class)

@@ -42,7 +42,6 @@
             @method('PUT')
 
             <div class="form-grid">
-                {{-- 1. Khách thuê (Giữ nguyên khách cũ) --}}
                 <div class="form-group">
                     <label>Khách thuê phòng:</label>
                     <select name="user_id" class="form-control" required>
@@ -54,38 +53,32 @@
                     </select>
                 </div>
 
-                {{-- 2. Phòng trọ (Đã sửa từ room_number sang number) --}}
                 <div class="form-group">
                     <label>Phòng thuê:</label>
                     <select name="room_id" class="form-control" required>
                         @foreach($rooms as $room)
                             <option value="{{ $room->id }}" {{ $contract->room_id == $room->id ? 'selected' : '' }}>
-                                {{-- Phải dùng $room->number thì mới hiện được số 002, 003 --}}
                                 Phòng: {{ $room->number }}
                             </option>
                         @endforeach
                     </select>
                 </div>
 
-                {{-- 3. Ngày bắt đầu --}}
                 <div class="form-group">
                     <label>Ngày bắt đầu:</label>
                     <input type="date" name="start_date" class="form-control" value="{{ $contract->start_date }}" required>
                 </div>
 
-                {{-- 4. Ngày kết thúc --}}
                 <div class="form-group">
                     <label>Ngày kết thúc (Dự kiến):</label>
                     <input type="date" name="end_date" class="form-control" value="{{ $contract->end_date }}">
                 </div>
 
-                {{-- 5. Tiền cọc --}}
                 <div class="form-group">
                     <label>Tiền đặt cọc (VNĐ):</label>
                     <input type="number" name="deposit" class="form-control" value="{{ $contract->deposit }}" required>
                 </div>
 
-                {{-- 6. Trạng thái --}}
                 <div class="form-group">
                     <label>Trạng thái hợp đồng:</label>
                     <select name="status" class="form-control">

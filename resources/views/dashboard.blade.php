@@ -24,7 +24,7 @@
         }
 
         .stat-box {
-            background-color: #80ffc0; /* Màu xanh ngọc của các thẻ card */
+            background-color: #80ffc0;
             flex: 1;
             padding: 40px 25px;
             border-radius: 20px;
@@ -59,22 +59,18 @@
     <div class="stats-container">
         <div class="stat-box">
             <h3>TỔNG SỐ PHÒNG</h3>
-            {{-- Đã thay bằng biến tổng số phòng --}}
             <div class="number">{{ $totalRooms ?? 0 }}</div>
         </div>
         <div class="stat-box">
             <h3>ĐANG THUÊ</h3>
-            {{-- Đã thay bằng biến số phòng đang thuê --}}
             <div class="number">{{ $rentedRooms ?? 0 }}</div>
         </div>
         <div class="stat-box">
             <h3>CÒN TRỐNG</h3>
-            {{-- Đã thay bằng biến số phòng còn trống --}}
             <div class="number">{{ $availableRooms ?? 0 }}</div>
         </div>
         <div class="stat-box">
             <h3>DOANH THU THÁNG</h3>
-            {{-- Phần này tạm thời để cứng, sau này tính toán Hóa đơn xong sẽ thay thế sau --}}
             <div class="number">Ngu</div>
         </div>
     </div>

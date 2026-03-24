@@ -11,13 +11,8 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
-    /**
-     * Hiển thị danh sách khách thuê (Role != 1).
-     * Đã thêm paginate(10) để chạy được bộ nút phân trang
-     */
     public function index()
     {
-        // Thay get() bằng paginate(10) để chia trang
         $users = User::where('role', '!=', 1)->paginate(10);
         return view('users.index', ['users' => $users]);
     }
@@ -27,9 +22,6 @@ class UserController extends Controller
         return view('users.create');
     }
 
-    /**
-     * Lưu hồ sơ mới: Đã xóa bỏ start_date để tránh lỗi Database
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -42,15 +34,10 @@ class UserController extends Controller
         ]);
 
         $data = $request->all();
-
-        // Gán mặc định các trường hệ thống
         $data['role'] = 0;
         $data['email'] = $request->phone . '@nhatro.com';
         $data['password'] = Hash::make('123456');
-
-        // CHỖ NÀY QUAN TRỌNG: Xóa start_date ra khỏi mảng dữ liệu trước khi lưu
         unset($data['start_date']);
-
         User::create($data);
         return Redirect::route('users.index');
     }
@@ -60,9 +47,6 @@ class UserController extends Controller
         return view('users.edit', ['user' => $user]);
     }
 
-    /**
-     * Cập nhật hồ sơ: Đã xóa bỏ start_date
-     */
     public function update(Request $request, User $user)
     {
         $request->validate([
@@ -72,20 +56,12 @@ class UserController extends Controller
             'phone.unique' => 'Số điện thoại này đã được khách khác sử dụng!',
             'id_card.unique' => 'Số CCCD này bị trùng với hồ sơ khác!',
         ]);
-
-        // Chỉ lấy những trường có trong Database (Đã bỏ start_date)
         $data = $request->only(['fullname', 'phone', 'id_card', 'address']);
-
-        // Cập nhật lại email tạm nếu admin đổi số điện thoại
         $data['email'] = $request->phone . '@nhatro.com';
-
         $user->update($data);
         return Redirect::route('users.index');
     }
 
-    /**
-     * Xóa hồ sơ và Tự động Reset ID nếu danh sách trống.
-     */
     public function destroy(User $user)
     {
         $user->delete();

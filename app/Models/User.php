@@ -14,10 +14,6 @@ class User extends Authenticatable
     protected $table = 'users';
     protected $primaryKey = 'id';
 
-    /**
-     * Các cột được phép lưu vào Database (Mass Assignment)
-     * ĐÃ XÓA: 'start_date' để khớp với Database hiện tại
-     */
     protected $fillable = [
         'fullname',
         'email',
@@ -28,22 +24,17 @@ class User extends Authenticatable
         'role',
     ];
 
-    // BẢO MẬT: Giấu các cột nhạy cảm đi khi truy xuất dữ liệu
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Ép kiểu dữ liệu để Laravel xử lý chuyên nghiệp hơn
-     * ĐÃ XÓA: 'start_date' => 'date'
-     */
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed', // Tự động mã hóa mật khẩu
-            'role' => 'integer',    // Đảm bảo role luôn là số nguyên
+            'password' => 'hashed',
+            'role' => 'integer',
         ];
     }
 }

@@ -15,16 +15,9 @@ class AdminController extends Controller
      */
     public function dashboard()
     {
-        // 1. Đếm tổng số phòng
         $totalRooms = Room::count();
-
-        // 2. Đếm số phòng đang thuê (Trạng thái = 2)
         $rentedRooms = Room::where('status', 2)->count();
-
-        // 3. Đếm số phòng còn trống (Trạng thái = 1)
         $availableRooms = Room::where('status', 1)->count();
-
-        // Trả về view dashboard cùng với các con số (Sửa tên 'dashboard' thành tên file view thực tế của bạn nếu cần)
         return view('dashboard', compact('totalRooms', 'rentedRooms', 'availableRooms'));
     }
 

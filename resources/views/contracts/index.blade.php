@@ -1,7 +1,5 @@
 @extends('layouts.master')
-
 @section('title', 'Danh sách hợp đồng')
-
 @section('content')
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
         <h2 style="margin: 0;">Quản Lý Hợp Đồng Thuê Phòng</h2>

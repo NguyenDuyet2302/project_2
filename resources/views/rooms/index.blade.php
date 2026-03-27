@@ -63,6 +63,5 @@
         @else
             <span style="padding: 8px 15px; background: #eee; color: #aaa; border-radius: 5px; cursor: not-allowed;">Trang sau &raquo;</span>
         @endif
-
     </div>
 @endsection

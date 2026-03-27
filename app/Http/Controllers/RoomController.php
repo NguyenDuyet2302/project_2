@@ -22,7 +22,7 @@ class RoomController extends Controller
             $query->where('status', $request->status);
         }
 
-        $rooms = $query->latest()->paginate(3)->withQueryString();
+        $rooms = $query->latest()->paginate(5)->withQueryString();
 
         return view('rooms.index', compact('rooms'));
     }

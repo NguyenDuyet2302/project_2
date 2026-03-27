@@ -40,7 +40,6 @@
             @csrf
 
             <div class="form-grid">
-                {{-- 1. Chọn Khách thuê --}}
                 <div class="form-group">
                     <label>Khách thuê phòng:</label>
                     <select name="user_id" class="form-control" required>
@@ -53,13 +52,11 @@
                     </select>
                 </div>
 
-                {{-- 2. Chọn Phòng (Đã sửa room_number -> number) --}}
                 <div class="form-group">
                     <label>Phòng thuê:</label>
                     <select name="room_id" class="form-control" required>
                         <option value="">-- Chọn số phòng --</option>
                         @forelse($rooms as $room)
-                            {{-- Chỗ này quan trọng: phải là $room->number mới hiện số 001, 002 --}}
                             <option value="{{ $room->id }}" {{ old('room_id') == $room->id ? 'selected' : '' }}>
                                 Phòng: {{ $room->number }} (Giá: {{ number_format($room->price, 0, ',', '.') }}đ)
                             </option>
@@ -69,25 +66,21 @@
                     </select>
                 </div>
 
-                {{-- 3. Ngày bắt đầu --}}
                 <div class="form-group">
                     <label>Ngày bắt đầu hợp đồng:</label>
                     <input type="date" name="start_date" class="form-control" value="{{ old('start_date', date('Y-m-d')) }}" required>
                 </div>
 
-                {{-- 4. Ngày kết thúc --}}
                 <div class="form-group">
                     <label>Ngày kết thúc (Dự kiến):</label>
                     <input type="date" name="end_date" class="form-control" value="{{ old('end_date') }}">
                 </div>
 
-                {{-- 5. Tiền cọc --}}
                 <div class="form-group">
                     <label>Số tiền đặt cọc (VNĐ):</label>
                     <input type="number" name="deposit" class="form-control" value="{{ old('deposit') }}" placeholder="Ví dụ: 2000000" required>
                 </div>
 
-                {{-- 6. Trạng thái --}}
                 <div class="form-group">
                     <label>Trạng thái hợp đồng:</label>
                     <select name="status" class="form-control">

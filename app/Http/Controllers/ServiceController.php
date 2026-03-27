@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Service;
 use App\Http\Requests\StoreServiceRequest;
 use App\Http\Requests\UpdateServiceRequest;
-use Illuminate\Support\Facades\Redirect; // Cần thêm dòng này để gọi Facade Redirect
+use Illuminate\Support\Facades\Redirect;
 
 class ServiceController extends Controller
 {
@@ -15,7 +15,6 @@ class ServiceController extends Controller
     public function index()
     {
         $services = Service::all();
-        // Giữ nguyên dùng compact hoặc array đều được, ở đây mình để lại mảng cho giống UserController của bạn
         return view('services.index', ['services' => $services]);
     }
 
@@ -33,7 +32,7 @@ class ServiceController extends Controller
     public function store(StoreServiceRequest $request)
     {
         Service::create($request->all());
-        return Redirect::route('services.index'); // Sửa Redirect()->route thành Redirect::route
+        return Redirect::route('services.index');
     }
 
     /**

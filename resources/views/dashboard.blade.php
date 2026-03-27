@@ -75,7 +75,7 @@
         <div class="stat-box">
             <h3>DOANH THU THÁNG</h3>
             {{-- Phần này tạm thời để cứng, sau này tính toán Hóa đơn xong sẽ thay thế sau --}}
-            <div class="number">Chưa có</div>
+            <div class="number">Ngu</div>
         </div>
     </div>
 @endsection

@@ -11,7 +11,6 @@ class StoreAdminRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        // BƯỚC 1: Đổi false thành true để hệ thống cho phép bạn gửi form đi
         return true;
     }
 
@@ -22,7 +21,6 @@ class StoreAdminRequest extends FormRequest
      */
     public function rules(): array
     {
-        // BƯỚC 2: Thêm các quy tắc bắt lỗi chặt chẽ
         return [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:admin,email',
@@ -30,9 +28,6 @@ class StoreAdminRequest extends FormRequest
         ];
     }
 
-    /**
-     * BƯỚC 3: Dịch lỗi sang tiếng Việt cho thân thiện với người dùng
-     */
     public function messages(): array
     {
         return [

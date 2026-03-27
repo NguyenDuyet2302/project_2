@@ -3,13 +3,11 @@
 @section('title', 'Danh sách hợp đồng')
 
 @section('content')
-    {{-- Header đồng bộ hệ thống --}}
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
         <h2 style="margin: 0;">Quản Lý Hợp Đồng Thuê Phòng</h2>
         <a href="{{ route('contracts.create') }}" style="background: #00ff9d; color: black; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">+ Thêm Hợp Đồng</a>
     </div>
 
-    {{-- Bảng dữ liệu - Phong cách hiện đại, không kẻ ô đen --}}
     <div style="background: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); overflow: hidden;">
         <table style="width: 100%; border-collapse: collapse;">
             <thead style="background: #f8f9fa; border-bottom: 2px solid #eee;">
@@ -27,7 +25,6 @@
             <tbody style="text-align: center;">
             @forelse($contracts as $contract)
                 <tr style="border-bottom: 1px solid #eee;">
-                    {{-- STT nhảy theo trang --}}
                     <td style="padding: 15px;"><strong>{{ ($contracts->currentPage() - 1) * $contracts->perPage() + $loop->iteration }}</strong></td>
 
                     <td style="text-align: left; padding-left: 20px;">{{ $contract->user->fullname ?? 'N/A' }}</td>
@@ -68,10 +65,7 @@
         </table>
     </div>
 
-    {{-- PHẦN PHÂN TRANG (PAGINATION) - Đã xử lý ẩn nút --}}
     <div style="margin-top: 25px; display: flex; justify-content: center; gap: 15px; align-items: center;">
-
-        {{-- Nút Trang trước --}}
         @if (!$contracts->onFirstPage())
             <a href="{{ $contracts->previousPageUrl() }}"
                style="padding: 8px 18px; background: #00ff9d; color: black; border-radius: 5px; text-decoration: none; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
@@ -79,20 +73,17 @@
             </a>
         @endif
 
-        {{-- Số trang hiện tại --}}
         @if($contracts->total() > 0)
             <span style="font-weight: bold; background: white; padding: 8px 20px; border-radius: 5px; border: 1px solid #eee;">
                 Trang {{ $contracts->currentPage() }} / {{ $contracts->lastPage() }}
             </span>
         @endif
 
-        {{-- Nút Trang sau --}}
         @if ($contracts->hasMorePages())
             <a href="{{ $contracts->nextPageUrl() }}"
                style="padding: 8px 18px; background: #00ff9d; color: black; border-radius: 5px; text-decoration: none; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
                 Trang sau &raquo;
             </a>
         @endif
-
     </div>
 @endsection

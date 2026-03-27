@@ -3,12 +3,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <title>Document</title>
 </head>
 <body>
 <h3>Invoice Detail List</h3>
 <a href="{{ route('invoiceDetails.create')}}">Add a invoiceDetail</a>
+
 <table border="1px" cellpadding="0" cellspacing="0" width="100%">
     <tr>
         <th>Service</th>
@@ -23,27 +23,13 @@
     </tr>
     @foreach($invoiceDetails as $invoiceDetail)
         <tr>
-            <td>
-                {{ $invoiceDetail->service->name }}
-            </td>
-            <td>
-                {{ $invoiceDetail->invoice->id }}
-            </td>
-            <td>
-                {{ $invoiceDetail->quantity }}
-            </td>
-            <td>
-                {{ $invoiceDetail->price }}
-            </td>
-            <td>
-                {{ $invoiceDetail->old_index }}
-            </td>
-            <td>
-                {{ $invoiceDetail->new_index }}
-            </td>
-            <td>
-                {{ $invoiceDetail->amount }}
-            </td>
+            <td>{{ $invoiceDetail->service->name }}</td>
+            <td>{{ $invoiceDetail->invoice->id }}</td>
+            <td>{{ $invoiceDetail->quantity }}</td>
+            <td>{{ $invoiceDetail->price }}</td>
+            <td>{{ $invoiceDetail->old_index }}</td>
+            <td>{{ $invoiceDetail->new_index }}</td>
+            <td>{{ $invoiceDetail->amount }}</td>
             <td>
                 <a href="{{ route('invoiceDetails.edit', ['service_id' => $invoiceDetail->service_id, 'invoice_id' => $invoiceDetail->invoice_id]) }}">Edit</a>
             </td>

@@ -47,8 +47,6 @@
     </div>
 
     <div style="margin-top: 20px; display: flex; justify-content: center; gap: 10px; align-items: center;">
-
-        {{-- Nút trang trước --}}
         @if ($rooms->onFirstPage())
             <span style="padding: 8px 15px; background: #eee; color: #aaa; border-radius: 5px; cursor: not-allowed;">&laquo; Trang trước</span>
         @else
@@ -57,7 +55,6 @@
 
         <span style="font-weight: bold;">Trang {{ $rooms->currentPage() }} / {{ $rooms->lastPage() }}</span>
 
-        {{-- Nút trang sau --}}
         @if ($rooms->hasMorePages())
             <a href="{{ $rooms->nextPageUrl() }}" style="padding: 8px 15px; background: #00ff9d; color: black; border-radius: 5px; text-decoration: none; font-weight: bold;">Trang sau &raquo;</a>
         @else

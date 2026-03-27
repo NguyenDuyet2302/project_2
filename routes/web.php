@@ -9,37 +9,19 @@ use App\Http\Controllers\ContractController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\AdminController; // <--- ĐÃ THÊM DÒNG NÀY ĐỂ GỌI ADMIN CONTROLLER
+use App\Http\Controllers\AdminController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-// ==========================================
-// CÁC ĐƯỜNG DẪN CÔNG KHAI (KHÔNG CẦN ĐĂNG NHẬP)
-// ==========================================
 
-// --- DÀNH CHO NGƯỜI THUÊ BÌNH THƯỜNG ---
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
-
-// --- DÀNH RIÊNG CHO ADMIN ---
-// Đường dẫn mở form đăng nhập Admin (Giao diện Figma)
 Route::get('/admin/login', [AuthController::class, 'showAdminLoginForm'])->name('admin.login');
-// Đường dẫn xử lý dữ liệu đăng nhập của Admin
 Route::post('/admin/login', [AuthController::class, 'adminLoginPost'])->name('admin.login.post');
-
-
-// ==========================================
-// VÙNG CẤM (BẮT BUỘC PHẢI ĐĂNG NHẬP MỚI ĐƯỢC VÀO)
-// ==========================================
-// ĐÃ SỬA LẠI Ổ KHÓA: Từ 'auth:admin' thành 'auth'
 Route::middleware('auth')->group(function () {
-
-    // Trang Dashboard (Tổng quan) - ĐÃ TRỎ VÀO ADMIN CONTROLLER ĐỂ LẤY SỐ LIỆU ĐẾM PHÒNG
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-
-    // Đường dẫn đăng xuất
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     // User

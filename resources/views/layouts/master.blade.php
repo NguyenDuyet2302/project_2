@@ -161,7 +161,6 @@
         </header>
 
         <main class="content-area">
-            {{-- Nơi này sẽ nhận nội dung từ các trang con truyền vào --}}
             @yield('content')
         </main>
 

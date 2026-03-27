@@ -5,33 +5,19 @@
 @section('content')
     <style>
         .page-title { font-size: 1.8rem; font-weight: normal; margin-bottom: 20px; color: #333; }
-        .form-container {
-            background: #fff; padding: 40px; border-radius: 15px; border: 1px solid #555;
-            max-width: 900px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        }
-        .form-subtitle {
-            font-size: 1.1rem; color: #666; margin-bottom: 30px; border-bottom: 2px solid #00ff9d;
-            padding-bottom: 10px; display: inline-block;
-        }
+        .form-container { background: #fff; padding: 40px; border-radius: 15px; border: 1px solid #555; max-width: 900px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); }
+        .form-subtitle { font-size: 1.1rem; color: #666; margin-bottom: 30px; border-bottom: 2px solid #00ff9d; padding-bottom: 10px; display: inline-block; }
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
         .form-group { display: flex; flex-direction: column; }
         .form-group label { font-weight: bold; margin-bottom: 10px; color: #000; }
         .form-control { padding: 15px; border-radius: 10px; border: 1px solid #ccc; font-size: 1rem; outline: none; transition: 0.2s; }
         .form-control:focus { border-color: #00ff9d; box-shadow: 0 0 0 3px rgba(0, 255, 157, 0.1); }
-
-        /* Vùng hiển thị ảnh hiện tại và upload mới */
         .image-section { display: flex; gap: 20px; align-items: flex-start; margin-top: 10px; }
         .current-image-box { text-align: center; flex: 1; }
         .current-image-box img { width: 100%; max-height: 200px; border-radius: 10px; border: 1px solid #ddd; object-fit: cover; }
-
-        .upload-zone {
-            flex: 1; border: 2px dashed #ccc; border-radius: 12px; padding: 20px; text-align: center;
-            cursor: pointer; transition: 0.3s; background: #fafafa; min-height: 180px;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-        }
+        .upload-zone { flex: 1; border: 2px dashed #ccc; border-radius: 12px; padding: 20px; text-align: center; cursor: pointer; transition: 0.3s; background: #fafafa; min-height: 180px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         .upload-zone:hover { border-color: #00ff9d; background: #f0fff9; }
         .img-preview { max-width: 100%; max-height: 180px; border-radius: 8px; display: none; object-fit: cover; }
-
         .form-actions { display: flex; gap: 20px; margin-top: 40px; justify-content: flex-end; }
         .btn-update { background-color: #00ff9d; color: #000; border: 1px solid #555; padding: 12px 50px; border-radius: 25px; font-weight: bold; font-size: 1.1rem; cursor: pointer; transition: 0.3s; }
         .btn-update:hover { background-color: #00e68e; transform: translateY(-2px); }
@@ -50,25 +36,21 @@
             @method('PUT')
 
             <div class="form-grid">
-                {{-- 1. Số phòng --}}
                 <div class="form-group">
                     <label>Số phòng:</label>
                     <input type="text" name="number" class="form-control" value="{{ $room->number }}" required>
                 </div>
 
-                {{-- 2. Diện tích --}}
                 <div class="form-group">
                     <label>Diện tích (m²):</label>
                     <input type="text" name="area" class="form-control" value="{{ $room->area }}">
                 </div>
 
-                {{-- 3. Giá thuê --}}
                 <div class="form-group">
                     <label>Giá thuê (VNĐ):</label>
                     <input type="number" name="price" class="form-control" value="{{ $room->price }}" required>
                 </div>
 
-                {{-- 4. Trạng thái --}}
                 <div class="form-group">
                     <label>Trạng thái:</label>
                     <select name="status" class="form-control">
@@ -77,17 +59,14 @@
                     </select>
                 </div>
 
-                {{-- 5. Hình ảnh (Full Width) --}}
                 <div class="form-group" style="grid-column: span 2;">
                     <label>Hình ảnh phòng:</label>
                     <div class="image-section">
-                        {{-- Ảnh cũ --}}
                         <div class="current-image-box">
                             <p style="font-size: 0.8rem; color: #888;">Ảnh hiện tại</p>
                             <img src="{{ $room->image ? asset('storage/'.$room->image) : 'https://via.placeholder.com/200x150' }}" alt="Room Image">
                         </div>
 
-                        {{-- Upload ảnh mới --}}
                         <input type="file" name="image" id="file-edit" hidden accept="image/*" onchange="previewImageEdit(this)">
                         <div class="upload-zone" onclick="document.getElementById('file-edit').click()">
                             <div id="edit-label">
@@ -112,9 +91,7 @@
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
                 reader.onload = function(e) {
-                    // Ẩn nhãn hướng dẫn
                     document.getElementById('edit-label').style.display = 'none';
-                    // Hiện ảnh preview mới
                     let imgPreview = document.getElementById('edit-img-preview');
                     imgPreview.src = e.target.result;
                     imgPreview.style.display = 'block';

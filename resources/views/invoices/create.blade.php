@@ -34,7 +34,6 @@
             @csrf
 
             <div class="form-grid">
-                {{-- 1. Chọn Hợp đồng (Để biết phòng nào, khách nào) --}}
                 <div class="form-group" style="grid-column: span 2;">
                     <label>Chọn Hợp đồng (Phòng - Khách thuê):</label>
                     <select name="contract_id" class="form-control" required>
@@ -47,31 +46,26 @@
                     </select>
                 </div>
 
-                {{-- 2. Tháng xuất hóa đơn --}}
                 <div class="form-group">
                     <label>Hóa đơn tháng:</label>
                     <input type="month" name="month" class="form-control" value="{{ date('Y-m') }}" required>
                 </div>
 
-                {{-- 3. Chỉ số điện --}}
                 <div class="form-group">
                     <label>Số điện tiêu thụ (kWh):</label>
                     <input type="number" name="electricity_index" class="form-control" placeholder="Ví dụ: 50" required>
                 </div>
 
-                {{-- 4. Chỉ số nước --}}
                 <div class="form-group">
                     <label>Số nước tiêu thụ (m3):</label>
                     <input type="number" name="water_index" class="form-control" placeholder="Ví dụ: 5" required>
                 </div>
 
-                {{-- 5. Phí dịch vụ --}}
                 <div class="form-group">
                     <label>Phí dịch vụ (Rác, Wifi...):</label>
                     <input type="number" name="service_fee" class="form-control" value="50000">
                 </div>
 
-                {{-- 6. Trạng thái thanh toán --}}
                 <div class="form-group" style="grid-column: span 2;">
                     <label>Trạng thái thanh toán:</label>
                     <select name="status" class="form-control">

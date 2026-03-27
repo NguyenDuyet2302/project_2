@@ -10,31 +10,20 @@ use Illuminate\Support\Facades\DB;
 
 class InvoiceController extends Controller
 {
-    /**
-     * SỬA LỖI: Thay get() bằng paginate(10)
-     */
     public function index()
     {
-        // Lấy hóa đơn kèm thông tin Hợp đồng, sắp xếp mới nhất lên đầu
         $invoices = Invoice::with(['contract.user', 'contract.room'])
             ->orderBy('id', 'desc')
             ->paginate(10);
-
         return view('invoices.index', compact('invoices'));
     }
 
-    /**
-     * Form tạo hóa đơn: Chỉ lấy hợp đồng đang hiệu lực
-     */
     public function create()
     {
         $contracts = Contract::with(['user', 'room'])->where('status', 1)->get();
         return view('invoices.create', compact('contracts'));
     }
 
-    /**
-     * Lưu hóa đơn: Tự động tính Tổng tiền
-     */
     public function store(Request $request)
     {
         $contract = Contract::with('room')->find($request->contract_id);
@@ -62,9 +51,6 @@ class InvoiceController extends Controller
         return view('invoices.edit', compact('invoice', 'contracts'));
     }
 
-    /**
-     * Cập nhật hóa đơn
-     */
     public function update(Request $request, Invoice $invoice)
     {
         $contract = Contract::with('room')->find($request->contract_id);
@@ -81,9 +67,6 @@ class InvoiceController extends Controller
         return Redirect::route('invoices.index');
     }
 
-    /**
-     * Xóa và Reset ID
-     */
     public function destroy(Invoice $invoice)
     {
         $invoice->delete();

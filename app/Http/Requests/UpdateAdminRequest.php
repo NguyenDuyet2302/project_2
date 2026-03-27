@@ -8,21 +8,15 @@ class UpdateAdminRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true; // Cho phép gửi form
+        return true;
     }
 
     public function rules(): array
     {
-        // Lấy ID của ông Admin đang được sửa từ trên thanh địa chỉ (URL)
         $adminId = $this->route('admin')->id;
-
         return [
             'name' => 'required|string|max:255',
-
-            // Dòng này cực quan trọng: Bắt trùng email nhưng BỎ QUA ID hiện tại
             'email' => 'required|email|unique:admin,email,' . $adminId,
-
-            // Password để nullable: Nhập thì mã hóa đổi mới, bỏ trống thì xài pass cũ
             'password' => 'nullable|string|min:6',
         ];
     }

@@ -10,6 +10,8 @@ use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\InvoiceDetailController;
+use App\Http\Controllers\ServiceDetailController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -80,4 +82,19 @@ Route::middleware('auth')->group(function () {
     Route::put('/payments/{payment}', [PaymentController::class, 'update'])->name('payments.update');
     Route::delete('/payments/{payment}', [PaymentController::class, 'destroy'])->name('payments.destroy');
 
+    //Invoice Detail
+    Route::get('invoice-details', [InvoiceDetailController::class, 'index'])->name('invoiceDetails.index');
+    Route::get('invoice-details/create', [InvoiceDetailController::class, 'create'])->name('invoiceDetails.create');
+    Route::post('invoice-details', [InvoiceDetailController::class, 'store'])->name('invoiceDetails.store');
+    Route::get('invoice-details/{service_id}/{invoice_id}/edit', [InvoiceDetailController::class, 'edit'])->name('invoiceDetails.edit');
+    Route::put('invoice-details/{service_id}/{invoice_id}', [InvoiceDetailController::class, 'update'])->name('invoiceDetails.update');
+    Route::delete('invoice-details/{service_id}/{invoice_id}', [InvoiceDetailController::class, 'destroy'])->name('invoiceDetails.destroy');
+
+    //Service_detail
+    Route::get('service-details', [ServiceDetailController::class, 'index'])->name('serviceDetails.index');
+    Route::get('service-details/create', [ServiceDetailController::class, 'create'])->name('serviceDetails.create');
+    Route::post('service-details', [ServiceDetailController::class, 'store'])->name('serviceDetails.store');
+    Route::get('service-details/{room_id}/{service_id}/edit', [ServiceDetailController::class, 'edit'])->name('serviceDetails.edit');
+    Route::put('service-details/{room_id}/{service_id}', [ServiceDetailController::class, 'update'])->name('serviceDetails.update');
+    Route::delete('service-details/{room_id}/{service_id}', [ServiceDetailController::class, 'destroy'])->name('serviceDetails.destroy');
 });

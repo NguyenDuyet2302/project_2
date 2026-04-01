@@ -3,64 +3,64 @@
 namespace App\Http\Controllers;
 
 use App\Models\ServiceDetail;
-use App\Http\Requests\StoreServiceDetailRequest;
-use App\Http\Requests\UpdateServiceDetailRequest;
+use App\Models\Room;
+use App\Models\Service;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class ServiceDetailController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $serviceDetails = ServiceDetail::all();
+        return view('serviceDetails.index', compact('serviceDetails'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $rooms = Room::all();
+        $services = Service::all();
+        return view('serviceDetails.create', compact('rooms', 'services'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreServiceDetailRequest $request)
+    public function store(Request $request)
     {
-        //
+        ServiceDetail::create($request->all());
+        return Redirect::route('serviceDetails.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(ServiceDetail $serviceDetail)
+    // Truyền 2 ID để tìm kiếm
+    public function edit($room_id, $service_id)
     {
-        //
+        $serviceDetail = ServiceDetail::where('room_id', $room_id)
+            ->where('service_id', $service_id)
+            ->firstOrFail();
+
+        $rooms = Room::all();
+        $services = Service::all();
+
+        return view('serviceDetails.edit', compact('serviceDetail', 'rooms', 'services'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(ServiceDetail $serviceDetail)
+    public function update(Request $request, $room_id, $service_id)
     {
-        //
+        ServiceDetail::where('room_id', $room_id)
+            ->where('service_id', $service_id)
+            ->update([
+                'old_index' => $request->old_index,
+                'new_index' => $request->new_index,
+                'reading_date' => $request->reading_date,
+            ]);
+
+        return Redirect::route('serviceDetails.index');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateServiceDetailRequest $request, ServiceDetail $serviceDetail)
+    public function destroy($room_id, $service_id)
     {
-        //
-    }
+        ServiceDetail::where('room_id', $room_id)
+            ->where('service_id', $service_id)
+            ->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(ServiceDetail $serviceDetail)
-    {
-        //
+        return Redirect::route('serviceDetails.index');
     }
 }

@@ -12,6 +12,7 @@
             <tr>
                 <th style="padding: 15px; text-align: center;">ID</th>
                 <th style="text-align: center;">Hình ảnh</th>
+                <th style="text-align: center;">Diện tích</th>
                 <th style="text-align: center;">Tên Phòng</th>
                 <th style="text-align: center;">Giá thuê</th>
                 <th style="text-align: center;">Trạng thái</th>
@@ -25,6 +26,7 @@
                     <td>
                         <img src="{{ $room->image ?: 'https://via.placeholder.com/80' }}" width="80" height="60" style="object-fit: cover; border: 1px solid #C4B7AB;">
                     </td>
+                    <td style="padding: 15px">{{$room->area}}m² </td>
                     <td><strong>{{ $room->number }}</strong></td>
                     <td>{{ number_format($room->price) }}đ</td>
                     <td>

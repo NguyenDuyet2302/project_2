@@ -37,17 +37,12 @@
 
                 <div class="form-group">
                     <label>Ngày bắt đầu:</label>
-                    <input type="date" id="start_date" name="start_date" class="form-control" value="{{ $contract->start_date }}" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Chỉnh thời hạn (Số tháng):</label>
-                    <input type="number" id="duration_months" class="form-control" placeholder="Nhập để tự đổi ngày kết thúc" min="1">
+                    <input type="date" name="start_date" class="form-control" value="{{ $contract->start_date }}" required>
                 </div>
 
                 <div class="form-group">
                     <label>Ngày kết thúc (Dự kiến):</label>
-                    <input type="date" id="end_date" name="end_date" class="form-control" value="{{ $contract->end_date }}" readonly style="background-color: #e9ecef;">
+                    <input type="date" name="end_date" class="form-control" value="{{ $contract->end_date }}">
                 </div>
 
                 <div class="form-group">
@@ -70,27 +65,4 @@
             </div>
         </form>
     </div>
-
-    <script>
-        document.getElementById('duration_months').addEventListener('input', calculateEndDate);
-        document.getElementById('start_date').addEventListener('change', calculateEndDate);
-        const originalEndDate = "{{ $contract->end_date }}";
-
-        function calculateEndDate() {
-            let startDateVal = document.getElementById('start_date').value;
-            let durationMonths = parseInt(document.getElementById('duration_months').value);
-
-            if (startDateVal && durationMonths > 0) {
-                let date = new Date(startDateVal);
-                date.setMonth(date.getMonth() + durationMonths);
-                let year = date.getFullYear();
-                let month = String(date.getMonth() + 1).padStart(2, '0');
-                let day = String(date.getDate()).padStart(2, '0');
-
-                document.getElementById('end_date').value = `${year}-${month}-${day}`;
-            } else {
-                document.getElementById('end_date').value = originalEndDate;
-            }
-        }
-    </script>
 @endsection

@@ -17,13 +17,9 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('phone', 10)->unique();
-            $table->string('id_card', 12)->unique(); // Căn cước công dân
+            $table->string('id_card', 12)->unique();
             $table->string('address');
-
-            // Chỉnh lại một chút: Dùng số nguyên và đặt mặc định là 0 (Khách)
             $table->tinyInteger('role')->default(0);
-
-            // Hai dòng này của Laravel giúp hệ thống chạy ổn định hơn
             $table->rememberToken();
             $table->timestamps();
         });

@@ -275,3 +275,39 @@ body {
 .image-section { display: flex; gap: 20px; align-items: flex-start; margin-top: 10px; }
 .current-image-box { text-align: center; flex: 1; }
 .current-image-box img { width: 100%; max-height: 200px; border: 1px solid #C4B7AB; object-fit: cover; }
+
+/* ==============================================================
+   BỔ SUNG CSS CHO PHẦN QUẢN LÝ DỊCH VỤ (SERVICE DETAILS)
+============================================================== */
+
+.page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.btn-add { background-color: #00E676; color: var(--text-dark); padding: 10px 20px; border-radius: 5px; text-decoration: none; font-weight: bold; border: none; transition: 0.3s; }
+.btn-add:hover { background-color: #00C853; }
+
+.card-box { background: var(--color-main); padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02); border: 1px solid #E0D7CD;}
+
+/* Bảng danh sách */
+.table-custom { width: 100%; border-collapse: collapse; }
+.table-custom th { text-align: left; padding: 15px 10px; border-bottom: 2px solid #C4B7AB; font-weight: bold; color: var(--text-dark); }
+.table-custom td { padding: 15px 10px; border-bottom: 1px solid #E0D7CD; color: var(--text-dark); }
+.text-blue { color: #0056b3; text-decoration: none; }
+.text-blue:hover { text-decoration: underline; }
+
+.action-links { display: flex; gap: 5px; align-items: center; }
+.action-links a { text-decoration: none; margin-right: 5px; }
+.action-links .edit { color: #0056b3; font-size: 14px;}
+.action-links .delete { color: #ff0000; background: none; border: none; cursor: pointer; padding: 0; font-size: 14px;}
+
+/* Giao diện form chi tiết */
+.breadcrumb { margin-bottom: 20px; font-size: 18px; color: var(--text-dark); }
+.form-header-line { border-bottom: 1px solid #C4B7AB; padding-bottom: 10px; margin-bottom: 20px; font-size: 16px; color: #736157; width: 50%; font-weight: bold; }
+
+.service-row { display: flex; gap: 15px; align-items: flex-end; margin-bottom: 15px; }
+.service-row .col-service { flex: 2; margin-bottom: 0;}
+.service-row .col-number { flex: 1; margin-bottom: 0;}
+.service-row .col-btn { flex: 0.5; display: flex; gap: 10px; margin-bottom: 0;}
+
+.btn-mini-add { background-color: var(--color-primary); color: var(--text-light); border: none; padding: 14px 15px; border-radius: 4px; cursor: pointer; flex: 1; font-weight: bold; transition: 0.3s;}
+.btn-mini-add:hover { background-color: var(--success-hover); }
+.btn-mini-delete { background-color: var(--btn-delete-bg); color: var(--text-light); border: none; padding: 14px 15px; border-radius: 4px; cursor: pointer; flex: 1; font-weight: bold; transition: 0.3s;}
+.btn-mini-delete:hover { background-color: var(--btn-delete-hover); }

@@ -51,12 +51,17 @@
 
                 <div class="form-group">
                     <label>Ngày bắt đầu hợp đồng:</label>
-                    <input type="date" name="start_date" class="form-control" value="{{ old('start_date', date('Y-m-d')) }}" required>
+                    <input type="date" id="start_date" name="start_date" class="form-control" value="{{ old('start_date', date('Y-m-d')) }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Thời hạn thuê (Số tháng):</label>
+                    <input type="number" id="duration_months" class="form-control" placeholder="Nhập số tháng (VD: 6, 12...)" min="1">
                 </div>
 
                 <div class="form-group">
                     <label>Ngày kết thúc (Dự kiến):</label>
-                    <input type="date" name="end_date" class="form-control" value="{{ old('end_date') }}">
+                    <input type="date" id="end_date" name="end_date" class="form-control" value="{{ old('end_date') }}" readonly style="background-color: #e9ecef;">
                 </div>
 
                 <div class="form-group">
@@ -79,4 +84,31 @@
             </div>
         </form>
     </div>
+
+    <script>
+        document.getElementById('duration_months').addEventListener('input', calculateEndDate);
+        document.getElementById('start_date').addEventListener('change', calculateEndDate);
+
+        function calculateEndDate() {
+            let startDateVal = document.getElementById('start_date').value;
+            let durationMonths = parseInt(document.getElementById('duration_months').value);
+
+            if (startDateVal && durationMonths > 0) {
+                let date = new Date(startDateVal);
+
+                // Cộng số tháng
+                date.setMonth(date.getMonth() + durationMonths);
+
+                // Định dạng xuất ra form
+                let year = date.getFullYear();
+                let month = String(date.getMonth() + 1).padStart(2, '0');
+                let day = String(date.getDate()).padStart(2, '0');
+
+                document.getElementById('end_date').value = `${year}-${month}-${day}`;
+            } else if (!durationMonths) {
+                // Nếu xóa số tháng thì xóa luôn ngày kết thúc
+                document.getElementById('end_date').value = '';
+            }
+        }
+    </script>
 @endsection

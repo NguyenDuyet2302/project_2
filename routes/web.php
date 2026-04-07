@@ -91,10 +91,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('invoice-details/{service_id}/{invoice_id}', [InvoiceDetailController::class, 'destroy'])->name('invoiceDetails.destroy');
 
     //Service_detail
-    Route::get('service-details', [ServiceDetailController::class, 'index'])->name('serviceDetails.index');
-    Route::get('service-details/create', [ServiceDetailController::class, 'create'])->name('serviceDetails.create');
-    Route::post('service-details', [ServiceDetailController::class, 'store'])->name('serviceDetails.store');
-    Route::get('service-details/{room_id}/{service_id}/edit', [ServiceDetailController::class, 'edit'])->name('serviceDetails.edit');
-    Route::put('service-details/{room_id}/{service_id}', [ServiceDetailController::class, 'update'])->name('serviceDetails.update');
-    Route::delete('service-details/{room_id}/{service_id}', [ServiceDetailController::class, 'destroy'])->name('serviceDetails.destroy');
+    Route::get('serviceDetails', [ServiceDetailController::class, 'index'])->name('serviceDetails.index');
+    Route::get('serviceDetails/create', [ServiceDetailController::class, 'create'])->name('serviceDetails.create');
+    Route::post('serviceDetails', [ServiceDetailController::class, 'store'])->name('serviceDetails.store');
+    Route::get('serviceDetails/{room_id}/{service_id}/edit', [ServiceDetailController::class, 'edit'])->name('serviceDetails.edit');
+    Route::put('serviceDetails/{room_id}/{service_id}', [ServiceDetailController::class, 'update'])->name('serviceDetails.update');
+    Route::delete('serviceDetails/{room_id}/{service_id}', [ServiceDetailController::class, 'destroy'])->name('serviceDetails.destroy');
 });

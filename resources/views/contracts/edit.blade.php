@@ -74,6 +74,8 @@
     <script>
         document.getElementById('duration_months').addEventListener('input', calculateEndDate);
         document.getElementById('start_date').addEventListener('change', calculateEndDate);
+
+        // Lưu lại ngày kết thúc ban đầu để phục hồi nếu người dùng xóa ô Số tháng
         const originalEndDate = "{{ $contract->end_date }}";
 
         function calculateEndDate() {
@@ -82,13 +84,18 @@
 
             if (startDateVal && durationMonths > 0) {
                 let date = new Date(startDateVal);
+
+                // Cộng số tháng
                 date.setMonth(date.getMonth() + durationMonths);
+
+                // Định dạng xuất ra form
                 let year = date.getFullYear();
                 let month = String(date.getMonth() + 1).padStart(2, '0');
                 let day = String(date.getDate()).padStart(2, '0');
 
                 document.getElementById('end_date').value = `${year}-${month}-${day}`;
             } else {
+                // Phục hồi lại ngày cũ nếu không nhập số tháng
                 document.getElementById('end_date').value = originalEndDate;
             }
         }

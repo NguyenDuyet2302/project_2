@@ -10,6 +10,8 @@
             <li><a href="{{ url('/users') }}">Quản lý khách</a></li>
             <li><a href="{{ url('/contracts') }}">Quản lý hợp đồng</a></li>
             <li><a href="{{ url('/invoices') }}">Quản lý hóa đơn</a></li>
+            <li><a href="{{ url('/services') }}">Quản lý dịch vụ</a></li>
+            <li><a href="{{ url('/serviceDetails') }}">Chi tiết dịch vụ</a></li>
         </ul>
     </nav>
     <div class="logout">

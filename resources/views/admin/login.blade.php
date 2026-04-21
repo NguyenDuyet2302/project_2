@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hệ thống 7 trọ</title>
+    <title>Hệ thống 7 trọ - Đăng nhập</title>
 
     <style>
         :root {
@@ -28,9 +28,14 @@
             align-items: center;
             height: 100vh;
         }
-        .login-box { display: flex; align-items: center; gap: 30px; }
-        .logo-svg { width: 140px; height: 140px; }
-        .login-form { display: flex; flex-direction: column; gap: 15px; width: 340px; }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 340px;
+        }
+
         .login-input {
             padding: 15px;
             border: none;
@@ -54,22 +59,55 @@
         }
 
         .login-btn:hover { background-color: var(--success-hover); }
-        .login-error { color: var(--danger-color); text-align: center; font-weight: bold; }
+
+        .login-error {
+            color: var(--danger-color);
+            text-align: center;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+            color: var(--text-dark);
+        }
+
+        .register-link a {
+            color: var(--color-primary);
+            text-decoration: none;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body class="login-page">
 
-    <form class="login-form" method="POST" action="{{ route('admin.login.post') }}">
-        @csrf
-        <input class="login-input" type="email" name="email" placeholder="email" required>
-        <input class="login-input" type="password" name="password" placeholder="mật khẩu" required>
-        <button class="login-btn" type="submit">LOGIN</button>
+<form class="login-form" method="POST" action="{{ route('admin.login.post') }}">
+    @csrf
 
-        @if ($errors->any())
-            <div class="login-error">{{ $errors->first() }}</div>
-        @endif
-    </form>
-</div>
+    <h2 style="text-align: center; color: var(--color-primary); margin-bottom: 10px;">ĐĂNG NHẬP</h2>
+
+    <input class="login-input" type="email" name="email" placeholder="Email đăng nhập" required>
+
+    <input class="login-input" type="password" name="password" placeholder="Mật khẩu" required>
+
+    <button class="login-btn" type="submit">LOGIN</button>
+
+    <div class="register-link">
+        Chưa có tài khoản? <a href="{{ route('register') }}">Đăng ký</a>
+    </div>
+
+    @if ($errors->any())
+        <div class="login-error">{{ $errors->first() }}</div>
+    @endif
+
+    @if(session('success'))
+        <div style="color: #28a745; text-align: center; font-weight: bold; margin-top: 10px;">
+            {{ session('success') }}
+        </div>
+    @endif
+</form>
 
 </body>
 </html>

@@ -15,6 +15,10 @@
         </ul>
     </nav>
     <div class="logout">
-        <button>Đăng xuất</button>
+        <form action="{{ route('logout') }}" method="POST">
+            @csrf <button type="submit" style="cursor: pointer;">
+                Đăng xuất
+            </button>
+        </form>
     </div>
 </aside>

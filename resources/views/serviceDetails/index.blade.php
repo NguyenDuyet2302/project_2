@@ -21,7 +21,7 @@
             <tbody>
             @foreach($serviceDetails as $serviceDetail)
                 <tr>
-                    <td><a href="#" class="text-blue">{{ $serviceDetail->service->name }}</a></td>
+                    <td>{{ $serviceDetail->service->name }}</td>
                     <td>{{ $serviceDetail->room->number }}</td>
                     <td>{{ $serviceDetail->old_index }}</td>
                     <td>{{ $serviceDetail->new_index }}</td>

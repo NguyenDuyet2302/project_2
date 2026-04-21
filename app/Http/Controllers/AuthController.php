@@ -4,63 +4,59 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function showLoginForm()
-    {
-        return view('admin.login');
-    }
-
-    public function login(Request $request)
-    {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
-
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            return redirect()->route('dashboard');
-        }
-
-        return back()->withErrors([
-            'email' => 'Tên tài khoản hoặc mật khẩu không chính xác!',
-        ]);
-    }
-
     public function showAdminLoginForm()
     {
         return view('admin.login');
     }
 
-    public function adminLoginPost(Request $request)
+    public function showRegisterForm()
     {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
+        return view('admin.register');
+    }
+
+    public function login(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
             if (Auth::user()->role == 1) {
-                $request->session()->regenerate();
                 return redirect()->route('dashboard');
-            } else {
-                Auth::logout();
-                return back()->withErrors([
-                    'email' => 'Tài khoản này không có quyền quản trị viên!',
-                ]);
             }
+            return redirect()->route('customer.home');
         }
-        return back()->withErrors([
-            'email' => 'Tên tài khoản hoặc mật khẩu không chính xác!',
-        ]);
+
+        return back()->withErrors(['email' => 'Sai tài khoản hoặc mật khẩu']);
     }
-    public function logout(Request $request)
+
+    public function register(Request $request)
+    {
+        $request->validate([
+            'fullname' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:6',
+        ]);
+
+        $user = new User();
+        $user->fullname = $request->fullname;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->id_card = $request->id_card;
+        $user->address = $request->address;
+        $user->password = Hash::make($request->password);
+        $user->role = 0;
+        $user->save();
+
+        return redirect()->route('admin.login');
+    }
+
+    public function logout()
     {
         Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
         return redirect()->route('admin.login');
     }
 }

@@ -1,10 +1,10 @@
 @extends('layouts.master')
-@section('title', 'Danh mục dịch vụ gốc')
+@section('title', 'Danh mục dịch vụ')
 
 @section('content')
     <div class="page-header">
-        <h2 class="page-title" style="margin-bottom: 0;">Danh Mục Dịch Vụ (Gốc)</h2>
-        <a href="{{ route('services.create') }}" class="btn-add">+ Thêm dịch vụ mới</a>
+        <h2 class="page-title" style="margin-bottom: 0;">Danh Mục Dịch Vụ</h2>
+        <a href="{{ route('services.create') }}" class="btn-add">+ Thêm dịch vụ</a>
     </div>
 
     <div class="card-box">
@@ -27,7 +27,7 @@
                     <td>{{ $service->unit_name }}</td>
                     <td class="action-links">
                         <a href="{{ route('services.edit', $service->id) }}" class="edit">Sửa</a> |
-                        <form method="post" action="{{ route('services.destroy', $service->id) }}" style="display:inline;" onsubmit="return confirm('Bạn có chắc muốn xóa dịch vụ này?');">
+                        <form method="post" action="{{ route('services.destroy', $service->id) }}" style="display:inline;" onsubmit="return confirm('xoa dich vu nay');">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="delete">Xóa</button>

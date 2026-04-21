@@ -4,7 +4,7 @@
 @section('content')
     <div class="breadcrumb">Quản lý dịch vụ / <b>chi tiết dịch vụ</b></div>
 
-    <div class="card-box" style="max-width: 800px;">
+    <div class="card-box" style="max-width: 850px;">
         <div class="form-header-line">Dịch vụ</div>
 
         <form method="post" action="{{ route('serviceDetails.store') }}">
@@ -29,9 +29,9 @@
             </div>
 
             <div id="services-container">
-                <div class="service-row">
-                    <div class="form-group col-service">
-                        <label>Dịch vụ 1 :</label>
+                <div class="service-row" style="display: flex; gap: 15px; align-items: flex-end; margin-bottom: 15px;">
+                    <div class="form-group" style="flex: 2;">
+                        <label class="service-label">Dịch vụ 1 :</label>
                         <select name="service_id[]" class="form-control" required>
                             <option value="">Chọn dịch vụ</option>
                             @foreach($services as $service)
@@ -39,19 +39,20 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="form-group col-number">
+                    <div class="form-group" style="flex: 1;">
                         <label>Số :</label>
                         <input type="number" name="new_index[]" class="form-control" placeholder="Nhập số" required>
                     </div>
-                    <div class="form-group col-btn">
-                        <button type="button" class="btn-mini-add btn-duplicate-row">Thêm</button>
+                    <div class="form-group" style="flex: 1; display: flex; gap: 5px;">
+                        <button type="button" class="btn-mini-add btn-duplicate" style="background-color: #a47c64; color: white; border: none; padding: 10px; border-radius: 4px; cursor: pointer; flex: 1;">Thêm</button>
+                        <button type="button" class="btn-remove" style="background-color: #A04A41; color: white; border: none; padding: 10px; border-radius: 4px; cursor: pointer; flex: 1;">Xóa</button>
                     </div>
                 </div>
             </div>
 
-            <div class="form-actions">
-                <a href="{{ route('serviceDetails.index') }}" class="btn-cancel">Hủy bỏ</a>
-                <button type="submit" class="btn-save">Thêm</button>
+            <div class="form-actions" style="margin-top: 30px; display: flex; justify-content: flex-end; gap: 10px;">
+                <a href="{{ route('serviceDetails.index') }}" class="btn-cancel" style="padding: 12px 30px;">Hủy bỏ</a>
+                <button type="submit" class="btn-save" style="padding: 12px 30px;">Thêm</button>
             </div>
         </form>
     </div>
@@ -66,19 +67,35 @@
             monthInput.value = month || '';
         });
 
-        document.addEventListener('click', function(e) {
-            if (e.target && e.target.classList.contains('btn-duplicate-row')) {
-                let container = document.getElementById('services-container');
-                let rows = container.getElementsByClassName('service-row');
-                let newRowNumber = rows.length + 1;
+        const container = document.getElementById('services-container');
+        function updateServiceNumbers() {
+            const rows = container.querySelectorAll('.service-row');
+            rows.forEach(function(row, index) {
+                row.querySelector('.service-label').textContent = 'Dịch vụ ' + (index + 1) + ' :';
+            });
+        }
 
-                let firstRow = rows[0];
-                let newRow = firstRow.cloneNode(true);
+        container.addEventListener('click', function(e) {
+            if (e.target.classList.contains('btn-duplicate')) {
+                const rows = container.querySelectorAll('.service-row');
+                const firstRow = rows[0];
+                const newRow = firstRow.cloneNode(true);
 
-                newRow.querySelector('.col-service label').textContent = 'Dịch vụ ' + newRowNumber + ' :';
-                newRow.querySelector('.col-number input').value = '';
+                newRow.querySelector('select').value = '';
+                newRow.querySelector('input').value = '';
 
                 container.appendChild(newRow);
+                updateServiceNumbers();
+            }
+
+            if (e.target.classList.contains('btn-remove')) {
+                const rows = container.querySelectorAll('.service-row');
+                if (rows.length > 1) {
+                    e.target.closest('.service-row').remove();
+                    updateServiceNumbers();
+                } else {
+                    alert('khong the xoa duco cai nay');
+                }
             }
         });
     </script>

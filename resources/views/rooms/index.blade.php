@@ -24,7 +24,8 @@
                 <tr style="border-bottom: 1px solid #EBE4DD;">
                     <td style="padding: 15px;">{{ $room->id }}</td>
                     <td>
-                        <img src="{{ $room->image ? asset('storage/' . $room->image) : 'https://via.placeholder.com/80' }}" width="80" height="60" style="object-fit: cover; border: 1px solid #C4B7AB;">
+                        <img src="{{ $room->image_url ?? 'https://via.placeholder.com/100x100' }}"
+                             alt="Ảnh phòng" width="100px" height="100px" style="object-fit: cover;">
                     </td>
                     <td style="padding: 15px">{{$room->area}}m² </td>
                     <td><strong>{{ $room->number }}</strong></td>
@@ -46,7 +47,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="7" style="padding: 50px; color: #8C7D73; font-weight: bold;">Chưa có dữ liệu phòng.</td>
+                    <td colspan="6" style="padding: 50px; color: #8C7D73; font-weight: bold;">Chưa có dữ liệu phòng.</td>
                 </tr>
             @endforelse
             </tbody>

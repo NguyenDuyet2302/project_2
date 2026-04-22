@@ -40,7 +40,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="service-row">
+
                         <div class="form-group col-number">
                             <label>Số cũ (Hiện tại) :</label>
                             <input type="number" name="old_index" value="{{ $serviceDetail->new_index }}" class="form-control" readonly style="background-color: #f8f9fa;">
@@ -50,7 +50,7 @@
                             <label>Số mới (Nhập mới) :</label>
                             <input type="number" name="new_index" aria-placeholder="0" class="form-control" required placeholder="00">
                         </div>
-                    </div>
+
                     <div class="form-group col-btn">
                         <button type="button" class="btn-mini-add btn-duplicate-row">Thêm</button>
                         <button type="button" class="btn-mini-delete btn-remove-row">Xóa</button>

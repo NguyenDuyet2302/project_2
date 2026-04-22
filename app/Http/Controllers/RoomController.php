@@ -37,10 +37,8 @@ class RoomController extends Controller
         $data = $request->all();
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('rooms', 'public');
-            $data['image'] = $path;
+            $data['image'] = $request->file('image')->store('Images', 'public');
         }
-
         Room::create($data);
         return Redirect::route('rooms.index');
     }
@@ -50,16 +48,19 @@ class RoomController extends Controller
         return view('rooms.edit', compact('room'));
     }
 
+    // Trong RoomController.php
+
     public function update(Request $request, Room $room)
     {
         $data = $request->all();
+
         if ($request->hasFile('image')) {
             if ($room->image) {
-                Storage::disk('public')->delete($room->image);
+                Storage::disk('public')->delete($this->normalizeImagePath($room->image));
             }
-            $path = $request->file('image')->store('rooms', 'public');
-            $data['image'] = $path;
+            $data['image'] = $request->file('image')->store('Images', 'public');
         }
+
         $room->update($data);
         return Redirect::route('rooms.index');
     }
@@ -67,12 +68,24 @@ class RoomController extends Controller
     public function destroy(Room $room)
     {
         if ($room->image) {
-            Storage::disk('public')->delete($room->image);
+            Storage::disk('public')->delete($this->normalizeImagePath($room->image));
         }
         $room->delete();
         if (Room::count() == 0) {
             DB::statement('ALTER TABLE rooms AUTO_INCREMENT = 1');
         }
         return Redirect::back();
+    }
+
+    private function normalizeImagePath(?string $path): ?string
+    {
+        if (!$path) {
+            return null;
+        }
+
+        $path = str_replace('\\', '/', $path);
+        $path = preg_replace('#^(?:/?storage/)+#', '', $path);
+
+        return preg_replace('#^(Images/)+#', 'Images/', ltrim($path, '/'));
     }
 }

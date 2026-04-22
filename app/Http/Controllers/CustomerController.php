@@ -15,7 +15,7 @@ class CustomerController extends Controller
         $rooms = Room::where('status', 0)->get();
 
         return view('customer.home', [
-            'khach' => null,
+            'khach' => Auth::user(),
             'hopdong' => null,
             'ds_dien_nuoc' => collect(),
             'rooms' => $rooms

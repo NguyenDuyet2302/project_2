@@ -41,7 +41,7 @@
                     <div class="image-section">
                         <div class="current-image-box">
                             <p style="font-size: 0.8rem; color: #888;">Ảnh hiện tại</p>
-                            <img src="{{ $room->image ? asset('storage/'.$room->image) : 'https://via.placeholder.com/200x150' }}" alt="Room Image">
+                            <img src="{{ $room->image_url ?: 'https://via.placeholder.com/200x150' }}" alt="Room Image">
                         </div>
 
                         <input type="file" name="image" id="file-edit" hidden accept="image/*" onchange="previewImageEdit(this)">

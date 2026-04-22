@@ -190,7 +190,7 @@
         <div class="hero">
             <div>
                 <h1 style="margin: 0;">
-                    Xin chào, {{ $khach->fullname }}!
+                    Xin chào, {{ $khach->name ?? 'Khách hàng' }}!
                 </h1>
                 <p style="margin: 10px 0 0; opacity: 0.9;">
                     Cảm ơn bạn đã tin tưởng hệ thống 7 Trọ
@@ -305,9 +305,9 @@
     @endif
 </div>
 
-<footer style="text-align: center; padding: 40px; color: #888;">
-    &copy; 2024 Hệ Thống 7 Trọ.
-</footer>
+{{--<footer style="text-align: center; padding: 40px; color: #888;">--}}
+{{--    &copy; 2024 Hệ Thống 7 Trọ.--}}
+{{--</footer>--}}
 
 </body>
 </html>

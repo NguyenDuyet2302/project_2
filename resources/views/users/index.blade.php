@@ -20,7 +20,7 @@
             </thead>
             <tbody style="text-align: center;">
             @forelse($users as $user)
-                <tr style="border-bottom: 1px solid #eee;">
+                <tr style="border-bottom: 1px solid #EBE4DD; {{ $user->status == 0 ? 'background-color: #FFF0F0; color: #A04A41;' : '' }}">
                     <td style="padding: 15px;"><strong>{{ ($users->currentPage() - 1) * $users->perPage() + $loop->iteration }}</strong></td>
                     <td style="text-align: left; padding-left: 20px;">{{ $user->fullname }}</td>
                     <td>{{ $user->phone }}</td>

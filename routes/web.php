@@ -13,9 +13,13 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\InvoiceDetailController;
 use App\Http\Controllers\ServiceDetailController;
 use App\Http\Controllers\CustomerController;
+//
+//Route::get('/', function () {
+//    return view('welcome');
+//});
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/bcrypt', function () {
+    return bcrypt('123456');
 });
 
 Route::get('/home', [CustomerController::class, 'index'])->name('home');

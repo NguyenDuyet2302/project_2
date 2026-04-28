@@ -49,17 +49,16 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
-        $request->validate([
-            'phone' => ['required', Rule::unique('users')->ignore($user->id)],
-            'id_card' => ['required', Rule::unique('users')->ignore($user->id)],
-        ], [
-            'phone.unique' => 'Số điện thoại này đã được khách khác sử dụng!',
-            'id_card.unique' => 'Số CCCD này bị trùng với hồ sơ khác!',
-        ]);
-        $data = $request->only(['fullname', 'phone', 'id_card', 'address']);
-        $data['email'] = $request->phone . '@nhatro.com';
+        $data = $request->all();
+        // Nếu có đổi mật khẩu thì mới mã hóa, không thì xóa khỏi mảng data để giữ nguyên pass cũ
+        if ($request->filled('password')) {
+            $data['password'] = bcrypt($request->password);
+        } else {
+            unset($data['password']);
+        }
+
         $user->update($data);
-        return Redirect::route('users.index');
+        return redirect()->route('users.index')->with('success', 'Cập nhật thành công!');
     }
 
     public function destroy(User $user)

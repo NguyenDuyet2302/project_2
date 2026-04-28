@@ -45,6 +45,14 @@
                     <input type="text" class="form-control" value="Khách thuê" disabled>
                     <input type="hidden" name="role" value="0">
                 </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Trạng thái tài khoản</label>
+                    <select name="status" style="width: 100%; padding: 10px; border: 1px solid #C4B7AB;">
+                        <option value="1" {{ $user->status == 1 ? 'selected' : '' }}>Đang hoạt động</option>
+                        <option value="0" {{ $user->status == 0 ? 'selected' : '' }}>Khóa tài khoản</option>
+                    </select>
+                </div>
             </div>
 
             <div class="form-actions">

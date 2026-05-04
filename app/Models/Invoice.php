@@ -22,4 +22,7 @@ class Invoice extends Model
     {
         return $this->belongsTo(Contract::class, 'contract_id');
     }
+    public function invoiceDetails() {
+        return $this->hasMany(InvoiceDetail::class, 'invoice_id');
+    }
 }

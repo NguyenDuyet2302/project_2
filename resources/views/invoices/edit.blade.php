@@ -1,12 +1,19 @@
 @extends('layouts.master')
-@section('title', 'Cập nhật hóa đơn')
+@php
+    $monthValue = old('month', $invoice->month);
+    if (is_string($monthValue) && str_contains($monthValue, '/')) {
+        [$m, $y] = explode('/', $monthValue);
+        $monthValue = $y . '-' . str_pad($m, 2, '0', STR_PAD_LEFT);
+    }
+@endphp
+@section('title', 'Cap nhat hoa don')
 @section('content')
     <div class="page-title">
-        Quản Lý Hóa Đơn / <strong>Cập nhật hóa đơn #{{ $invoice->id }}</strong>
+        Quan Ly Hoa Don / <strong>Cap nhat hoa don #{{ $invoice->id }}</strong>
     </div>
 
     <div class="form-container">
-        <div class="form-subtitle">CHỈNH SỬA THÔNG TIN CHI TIẾT</div>
+        <div class="form-subtitle">CAP NHAT HOA DON TU DU LIEU DICH VU CUA PHONG</div>
 
         <form method="post" action="{{ route('invoices.update', $invoice->id) }}">
             @csrf
@@ -14,48 +21,42 @@
 
             <div class="form-grid">
                 <div class="form-group" style="grid-column: span 2;">
-                    <label>Hợp đồng (Phòng - Khách thuê):</label>
+                    <label>Hop dong (Phong - Khach thue):</label>
                     <select name="contract_id" class="form-control" required>
                         @foreach($contracts as $contract)
-                            <option value="{{ $contract->id }}" {{ $invoice->contract_id == $contract->id ? 'selected' : '' }}>
-                                Phòng: {{ $contract->room->number }} - Khách: {{ $contract->user->fullname }}
+                            <option value="{{ $contract->id }}" {{ old('contract_id', $invoice->contract_id) == $contract->id ? 'selected' : '' }}>
+                                Phong: {{ $contract->room->number }} - Khach: {{ $contract->user->fullname }}
                             </option>
                         @endforeach
                     </select>
+                    @error('contract_id')
+                        <div style="color: red; margin-top: 6px;">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 <div class="form-group">
-                    <label>Hóa đơn tháng:</label>
-                    <input type="month" name="month" class="form-control" value="{{ $invoice->month }}" required>
+                    <label>Hoa don thang:</label>
+                    <input type="month" name="month" class="form-control" value="{{ $monthValue }}" required>
+                    @error('month')
+                        <div style="color: red; margin-top: 6px;">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 <div class="form-group">
-                    <label>Số điện tiêu thụ (kWh):</label>
-                    <input type="number" name="electricity_index" class="form-control" value="{{ $invoice->electricity_index }}" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Số nước tiêu thụ (m3):</label>
-                    <input type="number" name="water_index" class="form-control" value="{{ $invoice->water_index }}" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Phí dịch vụ (VNĐ):</label>
-                    <input type="number" name="service_fee" class="form-control" value="{{ $invoice->service_fee }}">
-                </div>
-
-                <div class="form-group" style="grid-column: span 2;">
-                    <label>Trạng thái thanh toán:</label>
+                    <label>Trang thai thanh toan:</label>
                     <select name="status" class="form-control">
-                        <option value="0" {{ $invoice->status == 0 ? 'selected' : '' }}>Chưa thanh toán</option>
-                        <option value="1" {{ $invoice->status == 1 ? 'selected' : '' }}>Đã thanh toán</option>
+                        <option value="0" {{ old('status', (string) $invoice->status) == '0' ? 'selected' : '' }}>Chua thanh toan</option>
+                        <option value="1" {{ old('status', (string) $invoice->status) == '1' ? 'selected' : '' }}>Da thanh toan</option>
                     </select>
+                    @error('status')
+                        <div style="color: red; margin-top: 6px;">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
 
             <div class="form-actions">
-                <a href="{{ route('invoices.index') }}" class="btn-cancel">Hủy bỏ</a>
-                <button type="submit" class="btn-update">Cập nhật hóa đơn</button>
+                <a href="{{ route('invoices.index') }}" class="btn-cancel">Huy bo</a>
+                <button type="submit" class="btn-update">Cap nhat hoa don</button>
             </div>
         </form>
     </div>

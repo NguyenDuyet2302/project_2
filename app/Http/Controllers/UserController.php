@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -25,17 +24,20 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'fullname' => 'required',
+            'email' => 'required|email|unique:users,email',
             'phone' => 'required|unique:users,phone',
             'id_card' => 'required|unique:users,id_card',
-            'fullname' => 'required',
         ], [
-            'phone.unique' => 'Số điện thoại này đã có khách thuê sử dụng!',
-            'id_card.unique' => 'Số CMND/CCCD này đã tồn tại trên hệ thống!',
+            'email.required' => 'Ban phai nhap email cho khach thue.',
+            'email.email' => 'Email khong dung dinh dang.',
+            'email.unique' => 'Email nay da ton tai tren he thong.',
+            'phone.unique' => 'So dien thoai nay da co khach thue su dung!',
+            'id_card.unique' => 'So CMND/CCCD nay da ton tai tren he thong!',
         ]);
 
         $data = $request->all();
         $data['role'] = 0;
-        $data['email'] = $request->phone . '@nhatro.com';
         $data['password'] = Hash::make('123456');
         unset($data['start_date']);
         User::create($data);
@@ -50,7 +52,6 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $data = $request->all();
-        // Nếu có đổi mật khẩu thì mới mã hóa, không thì xóa khỏi mảng data để giữ nguyên pass cũ
         if ($request->filled('password')) {
             $data['password'] = bcrypt($request->password);
         } else {
@@ -58,7 +59,7 @@ class UserController extends Controller
         }
 
         $user->update($data);
-        return redirect()->route('users.index')->with('success', 'Cập nhật thành công!');
+        return redirect()->route('users.index')->with('success', 'Cap nhat thanh cong!');
     }
 
     public function destroy(User $user)

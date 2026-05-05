@@ -104,8 +104,6 @@ Route::middleware(['authAdmin'])->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/customer/home', [CustomerController::class, 'dashboard'])->name('customer.home');
-
-    // Thêm dòng này cho trang cá nhân của khách
     Route::get('/customer/profile', [CustomerController::class, 'profile'])->name('customer.profile');
     Route::put('/customer/profile/update', [CustomerController::class, 'updateProfile'])->name('customer.profile.update');
     Route::get('/customer/contract', [CustomerController::class, 'viewContract'])->name('customer.contract');

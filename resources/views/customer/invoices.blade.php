@@ -58,7 +58,7 @@
                 </tbody>
             </table>
         @else
-            <p>Hiện tại chưa có hóa đơn nào được phát hành.</p>
+            <p>Hiện tại chưa có hóa đơn nào </p>
         @endif
     </div>
 </div>

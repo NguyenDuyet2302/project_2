@@ -161,7 +161,7 @@
         <div class="hero">
             <div>
                 <h1 style="margin: 0;">Xin chào, {{ $customer->fullname ?? 'Khách hàng' }}!</h1>
-                <p style="margin: 10px 0 0; opacity: 0.9;">Hệ thống quản lý trọ thông minh</p>
+                <p style="margin: 10px 0 0; opacity: 0.9;">Hệ thống quản lý trọ </p>
             </div>
             <i class="fa fa-home-user fa-4x" style="opacity: 0.3;"></i>
         </div>

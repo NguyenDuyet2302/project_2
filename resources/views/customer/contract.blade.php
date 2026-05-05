@@ -31,9 +31,9 @@
                 <div class="info-item"><span class="label">Người thuê:</span><span class="value">{{ $customer->fullname }}</span></div>
                 <div class="info-item"><span class="label">Trạng thái:</span><span class="value" style="color: #70794C; font-weight: bold;">Đang hiệu lực</span></div>
             </div>
-            <div style="margin-top: 30px; padding: 20px; background: #f9f6f0; border-radius: 8px; font-style: italic; color: #666;">
-                * Lưu ý: Mọi thay đổi về hợp đồng vui lòng liên hệ trực tiếp với chủ trọ.
-            </div>
+{{--            <div style="margin-top: 30px; padding: 20px; background: #f9f6f0; border-radius: 8px; font-style: italic; color: #666;">--}}
+{{--                * Lưu ý: Mọi thay đổi về hợp đồng vui lòng liên hệ trực tiếp với chủ trọ.--}}
+{{--            </div>--}}
         @else
             <p style="text-align: center;">Bạn chưa có hợp đồng nào.</p>
         @endif

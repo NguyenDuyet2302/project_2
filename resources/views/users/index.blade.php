@@ -15,6 +15,7 @@
                 <th>CMND/CCCD</th>
                 <th>Địa chỉ</th>
                 <th>Vai trò</th>
+                <th>Trạng thái</th>
                 <th style="width: 150px;">Thao tác</th>
             </tr>
             </thead>
@@ -31,6 +32,12 @@
                             {{ $user->role == 0 ? 'Khách thuê' : 'Admin' }}
                         </span>
                     </td>
+
+                    <td>
+                        <span style="background: {{ $user->status == 1 ? '#00ff9d' : '#ffcc00' }}; color: black; padding: 5px 12px; border-radius: 5px; font-size: 0.8rem; font-weight: bold;">
+                        {{ $user->status == 1 ? 'Dang hoat dong' : 'Da khoa' }}
+                    </td>
+
                     <td>
                         <a href="{{ route('users.edit', $user->id) }}" style="color: blue; text-decoration: none;">Sửa</a>
                         <span style="color: #ccc;"> | </span>

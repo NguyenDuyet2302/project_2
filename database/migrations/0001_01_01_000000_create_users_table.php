@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('id_card', 12)->unique();
             $table->string('address');
             $table->tinyInteger('role')->default(0);
+            $table->string('status');
             $table->rememberToken();
             $table->timestamps();
         });

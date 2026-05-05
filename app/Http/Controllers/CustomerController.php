@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Contract;
 use App\Models\ServiceDetail;
 use App\Models\Room;
-use App\Models\Invoice; // Đảm bảo đã import Model Invoice
+use App\Models\Invoice;
 
 class CustomerController extends Controller
 {
@@ -29,7 +29,6 @@ class CustomerController extends Controller
         $invoices = collect();
 
         if ($contract) {
-            // QUAN TRỌNG: Phải nạp invoiceDetails VÀ service
             $invoices = Invoice::where('contract_id', $contract->id)
                 ->with(['contract.room', 'invoiceDetails.service'])
                 ->orderBy('created_at', 'desc')
@@ -66,13 +65,12 @@ class CustomerController extends Controller
                 'new_password' => 'confirmed',
             ]);
 
-            // Dùng hàm này cho nó "sinh viên" và gọn này ông
             $user->update([
                 'password' => bcrypt($request->new_password),
             ]);
         }
 
-        return redirect()->route('home')->with('success', 'Thông tin đã được cập nhật!');
+        return redirect()->route('customer.home')->with('success', 'Thông tin đã được cập nhật!');
     }
 
     public function viewContract() {

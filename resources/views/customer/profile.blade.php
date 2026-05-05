@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --bg-main: #F4EFEA; /* Màu nền kem */
-            --color-primary: #9C7A63; /* Màu nâu chủ đạo */
+            --bg-main: #F4EFEA;
+            --color-primary: #9C7A63;
             --text-dark: #2D231E;
             --accent: #E8D8C4;
         }
@@ -20,7 +20,6 @@
             color: var(--text-dark);
         }
 
-        /* Navbar giống hệt file home[cite: 7] */
         .navbar {
             background-color: #ffffff;
             padding: 15px 10%;
@@ -90,7 +89,7 @@
             display: block;
             width: 200px;
             margin: 30px auto 0;
-            background-color: #55efc4; /* Màu xanh lá nổi bật cho nút chỉnh sửa */
+            background-color: #55efc4;
             color: #2d3436;
             border: none;
             padding: 12px;

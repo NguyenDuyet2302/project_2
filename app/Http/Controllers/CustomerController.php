@@ -61,6 +61,17 @@ class CustomerController extends Controller
             'address' => $request->address,
         ]);
 
+        if ($request->filled('new_password')) {
+            $request->validate([
+                'new_password' => 'confirmed',
+            ]);
+
+            // Dùng hàm này cho nó "sinh viên" và gọn này ông
+            $user->update([
+                'password' => bcrypt($request->new_password),
+            ]);
+        }
+
         return redirect()->route('home')->with('success', 'Thông tin đã được cập nhật!');
     }
 
@@ -83,4 +94,23 @@ class CustomerController extends Controller
     }
     return view('customer.invoices', compact('invoices', 'customer'));
 }
+    public function updatePassword(Request $request)
+    {
+        $user = Auth::user();
+
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|confirmed',
+        ]);
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->with('error', 'Sai mật khẩu cũ');
+        }
+
+        $user->update([
+            'password' => Hash::make($request->new_password)
+        ]);
+
+        return back()->with('success', 'Đã đổi mật khẩu');
+    }
 }

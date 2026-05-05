@@ -114,14 +114,10 @@
 <div class="container">
     <div class="profile-card">
         <a href="{{ route('home') }}" class="back-btn"><i class="fa fa-arrow-left"></i></a>
-
         <div class="profile-header">
-            <i class="fa fa-user-edit fa-3x" style="color: var(--color-primary);"></i>
-            <h2 style="margin-top: 10px;">Thông Tin Của Bạn</h2>
-            <p style="font-size: 0.9rem; color: #666;">Bạn có thể chỉnh sửa trực tiếp các thông tin bên dưới</p>
+            <h2 style="margin: 0;">Thông Tin Của Bạn</h2>
         </div>
 
-        <!-- Form gửi dữ liệu qua phương thức PUT -->
         <form action="{{ route('customer.profile.update') }}" method="POST">
             @csrf
             @method('PUT')
@@ -138,8 +134,26 @@
 
             <div class="info-row">
                 <label class="info-label">Email</label>
-                <input type="email" class="info-value" value="{{ Auth::user()->email }}" disabled style="background: #eee; cursor: not-allowed;">
-                <small style="display:block; margin-left: 175px; color: #999;">(Email không thể thay đổi)</small>
+                <input type="email" class="info-value" value="{{ Auth::user()->email }}" disabled style="background: #eee;">
+            </div>
+
+            <div class="info-row">
+                <label class="info-label">Mật khẩu</label>
+                <div style="flex: 1; display: flex; gap: 10px;">
+                    <input type="text" class="info-value" value="********" readonly style="flex: 1;">
+                    <button type="button" onclick="showPass()" style="background: var(--color-primary); color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: bold;">Thay đổi</button>
+                </div>
+            </div>
+
+            <div id="pass_box" style="display: none; background: #fff5f0; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                <div class="info-row">
+                    <label class="info-label">Mật khẩu mới</label>
+                    <input type="password" name="new_password" class="info-value">
+                </div>
+                <div class="info-row" style="margin-bottom: 0;">
+                    <label class="info-label">Nhập lại</label>
+                    <input type="password" name="new_password_confirmation" class="info-value">
+                </div>
             </div>
 
             <div class="info-row">
@@ -149,15 +163,21 @@
 
             <div class="info-row">
                 <label class="info-label">CCCD</label>
-                <input type="text" name="id_card" class="info-value" value="{{ Auth::user()->id_card }}" readonly style="background: #eee;">
+                <input type="text" class="info-value" value="{{ Auth::user()->id_card }}" readonly style="background: #eee;">
             </div>
 
-            <button type="submit" class="btn-submit" style="background-color: var(--color-primary); color: white;">
-                <i class="fa fa-save"></i> Lưu Thay Đổi
+            <button type="submit" class="btn-submit" style="background: var(--color-primary); color: white; width: 100%;">
+                Lưu Thay Đổi
             </button>
         </form>
     </div>
-</div>
+
+    <script>
+        function showPass() {
+            var x = document.getElementById("pass_box");
+            x.style.display = (x.style.display === "none") ? "block" : "none";
+        }
+    </script>
 
 </body>
 </html>

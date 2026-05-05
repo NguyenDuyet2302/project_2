@@ -24,8 +24,8 @@
                 <tr style="border-bottom: 1px solid #EBE4DD;">
                     <td style="padding: 15px;">{{ $room->id }}</td>
                     <td>
-                        <img src="{{ $room->image_url ?? 'https://via.placeholder.com/100x100' }}"
-                             alt="Ảnh phòng" width="100px" height="100px" style="object-fit: cover;">
+                        <img src="{{ $room->image ? asset('storage/' . $room->image) : 'https://via.placeholder.com/100x100' }}"
+                             alt="Ảnh phòng" width="100px" height="100px" style="object-fit: cover; border-radius: 4px;">
                     </td>
                     <td style="padding: 15px">{{$room->area}}m² </td>
                     <td><strong>{{ $room->number }}</strong></td>

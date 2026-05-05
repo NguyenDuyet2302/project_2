@@ -30,12 +30,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('admin.login.post'
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-Route::get('/rooms', [RoomController::class, 'index'])->name('rooms.index');
-Route::get('/rooms/create', [RoomController::class, 'create'])->name('rooms.create');
-Route::post('/rooms', [RoomController::class, 'store'])->name('rooms.store');
-Route::get('/rooms/{room}/edit', [RoomController::class, 'edit'])->name('rooms.edit');
-Route::put('/rooms/{room}', [RoomController::class, 'update'])->name('rooms.update');
-Route::delete('/rooms/{room}', [RoomController::class, 'destroy'])->name('rooms.destroy');
+
 
 Route::middleware(['authAdmin'])->group(function () {
 
@@ -48,6 +43,12 @@ Route::middleware(['authAdmin'])->group(function () {
     Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
     Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
 
+    Route::get('/rooms', [RoomController::class, 'index'])->name('rooms.index');
+    Route::get('/rooms/create', [RoomController::class, 'create'])->name('rooms.create');
+    Route::post('/rooms', [RoomController::class, 'store'])->name('rooms.store');
+    Route::get('/rooms/{room}/edit', [RoomController::class, 'edit'])->name('rooms.edit');
+    Route::put('/rooms/{room}', [RoomController::class, 'update'])->name('rooms.update');
+    Route::delete('/rooms/{room}', [RoomController::class, 'destroy'])->name('rooms.destroy');
 
     Route::get('/payment_methods', [PaymentMethodController::class, 'index'])->name('payment_methods.index');
     Route::get('/payment_methods/create', [PaymentMethodController::class, 'create'])->name('payment_methods.create');
@@ -109,4 +110,5 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/customer/profile/update', [CustomerController::class, 'updateProfile'])->name('customer.profile.update');
     Route::get('/customer/contract', [CustomerController::class, 'viewContract'])->name('customer.contract');
     Route::get('/customer/invoices', [CustomerController::class, 'viewInvoices'])->name('customer.invoices');
+    Route::put('/customer/password/update', [CustomerController::class, 'updatePassword'])->name('customer.password.update');
 });

@@ -121,6 +121,8 @@
             padding: 10px 20px;
             border-radius: 8px;
             margin-left: 15px;
+            text-decoration: none;
+            display: inline-block;
         }
 
         .room-grid {
@@ -145,6 +147,7 @@
         @if(Auth::check())
             <a href="{{ route('customer.profile') }}">Thông tin cá nhân</a>
             <a href="{{ route('customer.home') }}">Phòng của tôi</a>
+            {{-- Đã giữ lại phần Thống kê tiêu thụ cho ông đây --}}
             <a href="{{ route('customer.statistics') }}">Thống kê tiêu thụ</a>
             <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                 @csrf
@@ -168,7 +171,6 @@
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 40px;">
-            <!-- Phần Phòng đang thuê -->
             <div class="card" style="cursor: pointer;" onclick="location.href='{{ route('customer.contract') }}'">
                 <div class="section-title">Phòng đang thuê (Nhấn để xem hợp đồng)</div>
                 @if($contract)
@@ -180,7 +182,6 @@
                 @endif
             </div>
 
-            <!-- Phần Thông tin cá nhân -->
             <div class="card" style="cursor: pointer;" onclick="location.href='{{ route('customer.profile') }}'">
                 <div class="section-title">Thông tin cá nhân</div>
                 <p>SĐT: {{ $customer->phone }}</p>
@@ -189,7 +190,6 @@
             </div>
         </div>
 
-        <!-- Phần Hóa đơn chi tiết -->
         <div class="card">
             <div class="section-title">Hóa đơn thanh toán hàng tháng</div>
             @if(isset($invoices) && $invoices->count() > 0)
@@ -234,12 +234,18 @@
                     @endforeach
                     </tbody>
                 </table>
+
+                {{-- Nút xem hóa đơn dẫn đến trang customer.invoices đây --}}
+                <div style="text-align: right; margin-top: 20px;">
+                    <a href="{{ route('customer.invoices') }}" class="btn-auth">
+                        <i class="fa fa-history"></i> Xem lịch sử hóa đơn
+                    </a>
+                </div>
             @else
                 <p>Chưa có hóa đơn nào tháng này.</p>
             @endif
         </div>
     @else
-        <!-- Hiển thị cho khách chưa đăng nhập -->
         <div class="hero">
             <h1>Chào mừng đến với 7 Trọ!</h1>
         </div>

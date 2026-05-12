@@ -145,6 +145,7 @@
         @if(Auth::check())
             <a href="{{ route('customer.profile') }}">Thông tin cá nhân</a>
             <a href="{{ route('customer.home') }}">Phòng của tôi</a>
+            <a href="{{ route('customer.statistics') }}">Thống kê tiêu thụ</a>
             <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                 @csrf
                 <button type="submit" class="logout-btn">Thoát</button>

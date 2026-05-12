@@ -15,6 +15,6 @@
         </ul>
     </nav>
     <div class="logout">
-        <a href="/login"><button>Đăng xuất</button></a>
+        <button>Đăng xuất</button>
     </div>
 </aside>

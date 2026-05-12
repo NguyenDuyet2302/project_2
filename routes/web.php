@@ -109,4 +109,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/customer/contract', [CustomerController::class, 'viewContract'])->name('customer.contract');
     Route::get('/customer/invoices', [CustomerController::class, 'viewInvoices'])->name('customer.invoices');
     Route::put('/customer/password/update', [CustomerController::class, 'updatePassword'])->name('customer.password.update');
+    Route::get('/customer/statistics', [CustomerController::class, 'statistics'])->name('customer.statistics');
 });

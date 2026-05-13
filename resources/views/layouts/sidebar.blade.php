@@ -15,6 +15,8 @@
         </ul>
     </nav>
     <div class="logout">
+        <a href="{{ route('admin.login') }}">
         <button>Đăng xuất</button>
+        </a>
     </div>
 </aside>

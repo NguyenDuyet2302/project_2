@@ -93,11 +93,6 @@
     <input class="login-input" type="password" name="password" placeholder="Mật khẩu" required>
 
     <button class="login-btn" type="submit">LOGIN</button>
-
-    <div class="register-link">
-        Chưa có tài khoản? <a href="{{ route('register') }}">Đăng ký</a>
-    </div>
-
     @if ($errors->any())
         <div class="login-error">{{ $errors->first() }}</div>
     @endif

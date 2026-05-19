@@ -1,56 +1,39 @@
 @extends('layouts.master')
-@section('title', 'Tao hoa don moi')
+@section('title', 'Bước 1: Chọn phòng tính tiền')
 @section('content')
-    <div class="page-title">
-        Quan Ly Hoa Don / <strong>Them hoa don moi</strong>
-    </div>
+    <div style="max-width: 550px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+        <h3 style="border-left: 4px solid #9C7A63; padding-left: 10px; color: #2D231E;">BƯỚC 1: CHỌN PHÒNG & THÁNG TÍNH TIỀN</h3>
 
-    <div class="form-container">
-        <div class="form-subtitle">TAO HOA DON TU DU LIEU DICH VU CUA PHONG</div>
+        @if ($errors->any())
+            <div style="background: #fff5f5; color: #dc3545; padding: 10px; border-radius: 4px; margin-bottom: 15px;">
+                {{ $errors->first() }}
+            </div>
+        @endif
 
-        <form method="post" action="{{ route('invoices.store') }}">
+        <form action="{{ route('invoices.createStep2') }}" method="POST">
             @csrf
-
-            <div class="form-grid">
-                <div class="form-group" style="grid-column: span 2;">
-                    <label>Chon hop dong (Phong - Khach thue):</label>
-                    <select name="contract_id" class="form-control" required>
-                        <option value="">-- Chon hop dong de xuat hoa don --</option>
-                        @foreach($contracts as $contract)
-                            <option value="{{ $contract->id }}" {{ old('contract_id') == $contract->id ? 'selected' : '' }}>
-                                Phong: {{ $contract->room->number }} - Khach: {{ $contract->user->fullname }}
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('contract_id')
-                        <div style="color: red; margin-top: 6px;">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <div class="form-group">
-                    <label>Hoa don thang:</label>
-                    <input type="month" name="month" class="form-control" value="{{ old('month', date('Y-m')) }}" required>
-                    @error('month')
-                        <div style="color: red; margin-top: 6px;">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <div class="form-group">
-                    <label>Trang thai thanh toan:</label>
-                    <select name="status" class="form-control">
-                        <option value="0" {{ old('status', '0') == '0' ? 'selected' : '' }}>Chua thanh toan</option>
-                        <option value="1" {{ old('status') == '1' ? 'selected' : '' }}>Da thanh toan</option>
-                    </select>
-                    @error('status')
-                        <div style="color: red; margin-top: 6px;">{{ $message }}</div>
-                    @enderror
-                </div>
+            <div style="margin-bottom: 18px;">
+                <label><b>Chọn Phòng thuê:</b></label>
+                <select name="contract_id" class="form-control" required style="width: 100%; padding: 10px; margin-top: 5px;">
+                    @foreach($contracts as $contract)
+                        <option value="{{ $contract->id }}">Phòng {{ $contract->room->number }} - Khách: {{ $contract->user->fullname }}</option>
+                    @endforeach
+                </select>
             </div>
-
-            <div class="form-actions">
-                <a href="{{ route('invoices.index') }}" class="btn-cancel">Huy bo</a>
-                <button type="submit" class="btn-save">Xuat hoa don</button>
+            <div style="margin-bottom: 18px;">
+                <label><b>Hóa đơn cho tháng:</b></label>
+                <input type="month" name="month" value="{{ old('month') }}" class="form-control" required style="width: 100%; padding: 10px; margin-top: 5px;">
             </div>
+            <div style="margin-bottom: 25px;">
+                <label><b>Trạng thái thu tiền:</b></label>
+                <select name="status" class="form-control" style="width: 100%; padding: 10px; margin-top: 5px;">
+                    <option value="0">Chưa thanh toán</option>
+                    <option value="1">Đã thanh toán</option>
+                </select>
+            </div>
+            <button type="submit" style="background: #9C7A63; color: white; padding: 12px 20px; border: none; font-weight: bold; border-radius: 4px; cursor: pointer; width: 100%;">
+                Kế tiếp: Nhập số điện nước <i class="fa-solid fa-arrow-right"></i>
+            </button>
         </form>
     </div>
 @endsection

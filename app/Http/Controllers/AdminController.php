@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
-use App\Models\Room; // QUAN TRỌNG: Thêm dòng này để đếm được số lượng Phòng
+use App\Models\Invoice;
+use App\Models\Room;
 use App\Http\Requests\StoreAdminRequest;
 use App\Http\Requests\UpdateAdminRequest;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+
 
 class AdminController extends Controller
 {
@@ -18,7 +22,44 @@ class AdminController extends Controller
         $totalRooms = Room::count();
         $rentedRooms = Room::where('status', 2)->count();
         $availableRooms = Room::where('status', 1)->count();
-        return view('dashboard', compact('totalRooms', 'rentedRooms', 'availableRooms'));
+
+        // 1. Tính doanh thu tháng hiện tại (Chỉ tính hóa đơn đã thanh toán status = 1)
+        $currentMonth = Carbon::now()->month;
+        $currentYear = Carbon::now()->year;
+
+        $currentMonthRevenue = Invoice::where('status', 1)
+            ->whereYear('created_at', $currentYear)
+            ->whereMonth('created_at', $currentMonth)
+            ->sum('total_amount');
+
+        // 2. Tính doanh thu của từng tháng trong năm (từ tháng 1 -> tháng 12) làm biểu đồ
+        $monthlyRevenueData = array_fill(0, 12, 0); // Mảng 12 phần tử chứa số 0
+
+        $monthlyRevenues = Invoice::select(
+            DB::raw('MONTH(created_at) as month'),
+            DB::raw('SUM(total_amount) as total')
+        )
+            ->where('status', 1) // Chỉ tính hóa đơn đã nộp tiền
+            ->whereYear('created_at', $currentYear)
+            ->groupBy(DB::raw('MONTH(created_at)'))
+            ->get();
+
+        foreach ($monthlyRevenues as $revenue) {
+            $monthIndex = (int)$revenue->month - 1;
+            $monthlyRevenueData[$monthIndex] = (float)$revenue->total;
+        }
+
+        // Tạo nhãn biểu đồ từ Tháng 1 đến Tháng 12
+        $chartLabels = collect(range(1, 12))->map(fn ($m) => 'Tháng ' . $m)->all();
+
+        return view('dashboard', compact(
+            'totalRooms',
+            'rentedRooms',
+            'availableRooms',
+            'currentMonthRevenue',
+            'monthlyRevenueData',
+            'chartLabels'
+        ));
     }
 
     /**

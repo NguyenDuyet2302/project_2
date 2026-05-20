@@ -21,8 +21,8 @@
                 </select>
             </div>
             <div style="margin-bottom: 18px;">
-                <label><b>Hóa đơn cho tháng:</b></label>
-                <input type="month" name="month" value="{{ old('month') }}" class="form-control" required style="width: 100%; padding: 10px; margin-top: 5px;">
+                <label><b>Hóa đơn cho tháng (Cố định tháng hiện tại):</b></label>
+                <input type="month" name="month" value="{{ date('Y-m') }}" class="form-control" readonly style="width: 100%; padding: 10px; margin-top: 5px; background: #e9ecef; cursor: not-allowed;">
             </div>
             <div style="margin-bottom: 25px;">
                 <label><b>Trạng thái thu tiền:</b></label>

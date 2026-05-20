@@ -124,6 +124,7 @@ class CustomerController extends Controller
     public function statistics()
     {
         $user = Auth::user();
+        // Lấy hợp đồng còn hiệu lực của khách hàng
         $contract = Contract::where('user_id', $user->id)->with('room')->first();
 
         if (!$contract) {
@@ -140,59 +141,68 @@ class CustomerController extends Controller
         $electricityUsage = array_fill(0, 12, 0);
         $waterUsage = array_fill(0, 12, 0);
 
-        // Lấy dữ liệu chỉ số
-        $serviceUsages = ServiceDetail::with('service')
-            ->where('room_id', $contract->room_id)
+        // Lấy lịch sử tất cả hóa đơn của hợp đồng này
+        $invoices = Invoice::where('contract_id', $contract->id)
+            ->with('invoiceDetails.service')
             ->get();
 
-        foreach ($serviceUsages as $usage) {
-            if (!$usage->reading_date) continue;
+        foreach ($invoices as $invoice) {
+            if (!$invoice->month) continue;
 
-            // Lấy tháng hiện tại từ reading_date
-            $month = (int) \Carbon\Carbon::parse($usage->reading_date)->format('n');
-            $monthIndex = $month - 1; // Index của tháng hiện tại (0-11)
+            // 1. Đọc số tháng từ chu kỳ hóa đơn (Ví dụ: "2026-05" -> lấy ra số 5)
+            $invoiceMonth = (int) \Carbon\Carbon::parse($invoice->month)->format('n');
+
+            // 2. DỊCH LÙI THÁNG: Kỳ hóa đơn tháng 5 phản ánh lượng tiêu thụ thực tế của Tháng 4
+            $actualUsageMonth = $invoiceMonth - 1;
+            if ($actualUsageMonth === 0) {
+                $actualUsageMonth = 12; // Nếu hóa đơn kỳ tháng 1 thì tiêu thụ thuộc về tháng 12 năm ngoái
+            }
+
+            $monthIndex = $actualUsageMonth - 1; // Vị trí mảng biểu đồ (0 -> 11)
 
             if ($monthIndex >= 0 && $monthIndex < 12) {
-                if ($this->isElectricityService($usage->service)) {
-                    // 1. Gán số mới cho tháng hiện tại
-                    $electricityUsage[$monthIndex] = (float)$usage->new_index;
+                foreach ($invoice->invoiceDetails as $detail) {
+                    if (!$detail->service) continue;
 
-                    // 2. Gán số cũ cho tháng trước đó (nếu tháng hiện tại không phải tháng 1)
-                    if ($monthIndex > 0) {
-                        $electricityUsage[$monthIndex - 1] = (float)$usage->old_index;
-                    }
-                } elseif ($this->isWaterService($usage->service)) {
-                    // Tương tự cho nước
-                    $waterUsage[$monthIndex] = (float)$usage->new_index;
+                    // 3. CÔNG THỨC CHUẨN: Lượng tiêu thụ = Số mới - Số cũ
+                    $oldIdx = (float)$detail->old_index;
+                    $newIdx = (float)$detail->new_index;
+                    $amountUsed = $newIdx - $oldIdx;
 
-                    if ($monthIndex > 0) {
-                        $waterUsage[$monthIndex - 1] = (float)$usage->old_index;
+                    if ($amountUsed < 0) $amountUsed = 0; // Tránh lỗi logic nếu nhập sai số
+
+                    if ($this->isElectricityService($detail->service)) {
+                        $electricityUsage[$monthIndex] = $amountUsed;
+                    } elseif ($this->isWaterService($detail->service)) {
+                        $waterUsage[$monthIndex] = $amountUsed;
                     }
                 }
             }
         }
 
-        // Bảng dịch vụ cố định (Giữ nguyên logic lọc bỏ điện nước)
-        $fixedServices = ServiceDetail::with('service')
-            ->where('room_id', $contract->room_id)
-            ->get()
-            ->filter(fn ($sd) => !$this->isElectricityService($sd->service) && !$this->isWaterService($sd->service))
-            ->unique('service_id')
-            ->map(function ($sd) {
-                return [
-                    'name' => $sd->service->name,
-                    'unit' => $sd->service->unit_name ?: 'tháng',
-                    'price' => (float)($sd->service->unit_price ?? 0),
-                    'amount' => (float)($sd->service->unit_price ?? 0),
-                ];
-            })
-            ->prepend([
-                'name' => 'Tiền phòng',
-                'unit' => 'tháng',
-                'price' => (float)($contract->room->price ?? 0),
-                'amount' => (float)($contract->room->price ?? 0),
-            ])
-            ->values();
+        // Bảng dịch vụ cố định bên dưới (Lấy theo hóa đơn mới nhất)
+        $fixedServices = collect();
+        $latestInvoice = $invoices->sortByDesc('month')->first();
+
+        if ($latestInvoice) {
+            $fixedServices = $latestInvoice->invoiceDetails
+                ->filter(fn ($detail) => !$this->isElectricityService($detail->service) && !$this->isWaterService($detail->service))
+                ->map(function ($detail) {
+                    return [
+                        'name' => $detail->service->name,
+                        'unit' => $detail->service->unit_name ?: 'tháng',
+                        'price' => (float)$detail->price,
+                        'amount' => (float)$detail->amount,
+                    ];
+                });
+        }
+
+        $fixedServices = $fixedServices->prepend([
+            'name' => 'Tiền phòng',
+            'unit' => 'tháng',
+            'price' => (float)($contract->room->price ?? 0),
+            'amount' => (float)($contract->room->price ?? 0),
+        ])->values();
 
         return view('customer.statistics', compact('contract', 'chartLabels', 'electricityUsage', 'waterUsage', 'fixedServices'));
     }

@@ -37,15 +37,21 @@
                         </span>
                     </td>
 
-                    <td>
-                        <a href="{{ route('invoices.edit', $invoice->id) }}" style="color: blue; text-decoration: none;">Sửa</a>
-                        <span style="color: #ccc;"> | </span>
+                    <td style="display: flex; justify-content: center; gap: 10px; padding: 15px;">
+                        <a href="{{ route('invoices.show', $invoice->id) }}"
+                           style="background: #2563eb; color: white; padding: 6px 12px; border-radius: 5px; text-decoration: none; font-weight: bold; font-size: 0.85rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                            Xem
+                        </a>
 
-                        <form action="{{ route('invoices.destroy', $invoice->id) }}" method="POST" style="display: inline;">
+                        <a href="{{ route('invoices.edit', $invoice->id) }}"
+                           style="background: #ffc107; color: black; padding: 6px 12px; border-radius: 5px; text-decoration: none; font-weight: bold; font-size: 0.85rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                            Sửa
+                        </a>
+
+                        <form action="{{ route('invoices.destroy', $invoice->id) }}" method="POST" style="margin: 0;" onsubmit="return confirm('Bạn có chắc chắn muốn xóa hóa đơn này?')">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" onclick="return confirm('Xóa hóa đơn này chứ?')"
-                                    style="background: none; border: none; color: red; cursor: pointer; padding: 0; font-family: inherit; font-size: inherit;">
+                            <button type="submit" style="background: #dc3545; color: white; padding: 6px 12px; border-radius: 5px; font-weight: bold; font-size: 0.85rem; border: none; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
                                 Xóa
                             </button>
                         </form>

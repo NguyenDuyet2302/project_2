@@ -49,6 +49,18 @@ class InvoiceController extends Controller
         ]);
     }
 
+    public function show($id)
+    {
+        // Lấy hóa đơn kèm thông tin phòng, khách thuê và chi tiết từng dịch vụ của tháng đó
+        $invoice = Invoice::with([
+            'contract.room',
+            'contract.user',
+            'invoiceDetails.service'
+        ])->findOrFail($id);
+
+        return view('invoices.show', compact('invoice'));
+    }
+
     public function store(Request $request) {
         $data = $request->validate([
             'contract_id' => 'required|exists:contracts,id',

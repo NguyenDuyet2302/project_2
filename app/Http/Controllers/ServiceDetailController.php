@@ -12,8 +12,15 @@ class ServiceDetailController extends Controller
 {
     public function index()
     {
-        $serviceDetails = ServiceDetail::all();
-        return view('serviceDetails.index', compact('serviceDetails'));
+        // 1. Lấy toàn bộ danh sách chi tiết dịch vụ kèm mối quan hệ room và service
+        $allDetails = \App\Models\ServiceDetail::with(['room', 'service'])->get();
+
+        // 2. Nhóm các bản ghi lại theo "Số phòng" (room.number)
+        $groupedServiceDetails = $allDetails->groupBy(function($item) {
+            return $item->room->number ?? 'Chưa xếp phòng';
+        })->sortKeys(); // Sắp xếp thứ tự phòng từ nhỏ đến lớn (Phòng 1, Phòng 2...)
+
+        return view('serviceDetails.index', compact('groupedServiceDetails'));
     }
 
     public function create()

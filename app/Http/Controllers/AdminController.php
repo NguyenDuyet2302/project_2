@@ -17,40 +17,57 @@ class AdminController extends Controller
     /**
      * HIỂN THỊ TRANG TỔNG QUAN (DASHBOARD)
      */
-    public function dashboard()
+    public function dashboard(\Illuminate\Http\Request $request)
     {
         $totalRooms = Room::count();
         $rentedRooms = Room::where('status', 2)->count();
         $availableRooms = Room::where('status', 1)->count();
 
-        // 1. Tính doanh thu tháng hiện tại (Chỉ tính hóa đơn đã thanh toán status = 1)
-        $currentMonth = Carbon::now()->month;
         $currentYear = Carbon::now()->year;
 
+        // --- ĐỒNG BỘ THEO YÊU CẦU TRƯỚC: Doanh thu hiển thị cố định của tháng hiện tại ngoài đời ---
+        $currentMonthStr = date('Y-m'); // Chuỗi "2026-05" chẳng hạn
         $currentMonthRevenue = Invoice::where('status', 1)
-            ->whereYear('created_at', $currentYear)
-            ->whereMonth('created_at', $currentMonth)
+            ->where('month', $currentMonthStr)
             ->sum('total_amount');
 
-        // 2. Tính doanh thu của từng tháng trong năm (từ tháng 1 -> tháng 12) làm biểu đồ
-        $monthlyRevenueData = array_fill(0, 12, 0); // Mảng 12 phần tử chứa số 0
+        // --- 2. Tính doanh thu của từng tháng trong năm (từ tháng 1 -> tháng 12) làm biểu đồ ---
+        $monthlyRevenueData = array_fill(0, 12, 0);
 
-        $monthlyRevenues = Invoice::select(
-            DB::raw('MONTH(created_at) as month'),
-            DB::raw('SUM(total_amount) as total')
-        )
-            ->where('status', 1) // Chỉ tính hóa đơn đã nộp tiền
-            ->whereYear('created_at', $currentYear)
-            ->groupBy(DB::raw('MONTH(created_at)'))
-            ->get();
-
-        foreach ($monthlyRevenues as $revenue) {
-            $monthIndex = (int)$revenue->month - 1;
-            $monthlyRevenueData[$monthIndex] = (float)$revenue->total;
+        // Gom nhóm doanh thu theo định dạng Y-m được chọn trong hóa đơn
+        $allPaidInvoices = Invoice::where('status', 1)->get();
+        foreach ($allPaidInvoices as $inv) {
+            if (!$inv->month) continue;
+            $parsedDate = Carbon::parse($inv->month);
+            if ($parsedDate->year == $currentYear) {
+                $monthIdx = $parsedDate->month - 1;
+                $monthlyRevenueData[$monthIdx] += (float)$inv->total_amount;
+            }
         }
 
         // Tạo nhãn biểu đồ từ Tháng 1 đến Tháng 12
         $chartLabels = collect(range(1, 12))->map(fn ($m) => 'Tháng ' . $m)->all();
+
+        // --- 3. ĐỌC THAM SỐ CLICK TỪ BIỂU ĐỒ TRUYỀN XUỐNG ---
+        // Nhận giá trị index từ 0 (Tháng 1) đến 11 (Tháng 12)
+        $selectedMonthIndex = $request->get('selected_month');
+        $selectedMonthName = null;
+        $detailedInvoices = collect(); // Mặc định danh sách hóa đơn rỗng nếu chưa bấm
+
+        if ($selectedMonthIndex !== null && $selectedMonthIndex >= 0 && $selectedMonthIndex < 12) {
+            $targetMonth = (int)$selectedMonthIndex + 1; // Đổi về tháng thực tế (1 -> 12)
+            $selectedMonthName = "Tháng " . $targetMonth;
+
+            // Lọc ra các hóa đơn đã thanh toán thuộc năm hiện tại và có tháng trùng với tháng được chọn click
+            $detailedInvoices = Invoice::with(['contract.user', 'contract.room'])
+                ->where('status', 1)
+                ->get()
+                ->filter(function($invoice) use ($currentYear, $targetMonth) {
+                    if (!$invoice->month) return false;
+                    $date = Carbon::parse($invoice->month);
+                    return $date->year == $currentYear && $date->month == $targetMonth;
+                });
+        }
 
         return view('dashboard', compact(
             'totalRooms',
@@ -58,7 +75,9 @@ class AdminController extends Controller
             'availableRooms',
             'currentMonthRevenue',
             'monthlyRevenueData',
-            'chartLabels'
+            'chartLabels',
+            'selectedMonthName',
+            'detailedInvoices'
         ));
     }
 

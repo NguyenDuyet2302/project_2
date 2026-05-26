@@ -72,6 +72,8 @@ Route::middleware(['authAdmin'])->group(function () {
     Route::delete('/contracts/{contract}', [ContractController::class, 'destroy'])->name('contracts.destroy');
 
     Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices.index');
+    // Tìm trong nhóm middleware authAdmin và thêm dòng này vào:
+    Route::get('/invoices/{id}', [InvoiceController::class, 'show'])->name('invoices.show');
     Route::get('/invoices/create', [InvoiceController::class, 'create'])->name('invoices.create');
     Route::post('/invoices/create-step2', [InvoiceController::class, 'createStep2'])->name('invoices.createStep2');
     Route::post('/invoices', [InvoiceController::class, 'store'])->name('invoices.store');

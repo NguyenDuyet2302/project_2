@@ -26,7 +26,7 @@ class AdminController extends Controller
         $currentYear = Carbon::now()->year;
 
         // --- ĐỒNG BỘ THEO YÊU CẦU TRƯỚC: Doanh thu hiển thị cố định của tháng hiện tại ngoài đời ---
-        $currentMonthStr = date('Y-m'); // Chuỗi "2026-05" chẳng hạn
+        $currentMonthStr = date('Y-m');
         $currentMonthRevenue = Invoice::where('status', 1)
             ->where('month', $currentMonthStr)
             ->sum('total_amount');
@@ -52,7 +52,7 @@ class AdminController extends Controller
         // Nhận giá trị index từ 0 (Tháng 1) đến 11 (Tháng 12)
         $selectedMonthIndex = $request->get('selected_month');
         $selectedMonthName = null;
-        $detailedInvoices = collect(); // Mặc định danh sách hóa đơn rỗng nếu chưa bấm
+        $detailedInvoices = collect();
 
         if ($selectedMonthIndex !== null && $selectedMonthIndex >= 0 && $selectedMonthIndex < 12) {
             $targetMonth = (int)$selectedMonthIndex + 1; // Đổi về tháng thực tế (1 -> 12)

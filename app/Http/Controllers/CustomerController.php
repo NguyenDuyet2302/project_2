@@ -31,15 +31,17 @@ class CustomerController extends Controller
         $user = Auth::user();
         $contract = Contract::where('user_id', $user->id)->with('room')->first();
         $invoices = collect();
+        $serviceDetails = collect();
 
         if ($contract) {
             $invoices = Invoice::where('contract_id', $contract->id)
                 ->with(['contract.room', 'invoiceDetails.service'])
                 ->orderBy('created_at', 'desc')
                 ->get();
+            $serviceDetails = \App\Models\ServiceDetail::where('room_id', $contract->room_id)->with('service')->get();
         }
 
-        return view('customer.home', compact('contract', 'invoices'))
+        return view('customer.home', compact('contract', 'invoices', 'serviceDetails'))
             ->with('customer', $user);
     }
 

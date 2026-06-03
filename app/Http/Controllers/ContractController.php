@@ -58,6 +58,9 @@ class ContractController extends Controller
 
     public function store(Request $request)
     {
+        if ($request->has('deposit')) {
+            $request->merge(['deposit' => str_replace('.', '', $request->deposit)]);
+        }
         Contract::create($request->all());
         $room = Room::find($request->room_id);
         if ($room) {

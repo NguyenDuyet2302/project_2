@@ -66,7 +66,9 @@
 
                 <div class="form-group">
                     <label>Số tiền đặt cọc (VNĐ):</label>
-                    <input type="number" name="deposit" class="form-control" value="{{ old('deposit') }}" placeholder="Ví dụ: 2000000" required>
+                    <input type="text" name="deposit" id="deposit" class="form-control"
+                           value="{{ old('deposit') }}" placeholder="Ví dụ: 2.000.000"
+                           oninput="formatMoney(this)" required>
                 </div>
 
                 <div class="form-group">
@@ -88,6 +90,14 @@
     <script>
         document.getElementById('duration_months').addEventListener('input', calculateEndDate);
         document.getElementById('start_date').addEventListener('change', calculateEndDate);
+
+        function formatMoney(input) {
+            // 1. Xóa hết tất cả ký tự không phải là số (bao gồm cả dấu chấm cũ)
+            let value = input.value.replace(/\D/g, '');
+
+            // 2. Thêm dấu chấm phân cách hàng nghìn và gán ngược lại vào ô nhập
+            input.value = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+        }
 
         function calculateEndDate() {
             let startDateVal = document.getElementById('start_date').value;

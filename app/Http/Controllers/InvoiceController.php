@@ -126,8 +126,6 @@ class InvoiceController extends Controller
         }
 
         $totalAmount = $roomPrice + $servicesTotalAmount;
-
-        // ĐỒNG BỘ CHỮ THƯỜNG TOÀN BỘ TRONG HOẶC NGOÀI ĐOẠN USE (...)
         DB::transaction(function () use ($data, $roomPrice, $electricityQuantity, $waterQuantity, $fixedServiceTotal, $totalAmount, $finalDetails, $contract) {
             // 1. Tạo hóa đơn tổng
             $invoice = Invoice::create([

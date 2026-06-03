@@ -73,13 +73,15 @@ Route::middleware(['authAdmin'])->group(function () {
 
     Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices.index');
     // Tìm trong nhóm middleware authAdmin và thêm dòng này vào:
-    Route::get('/invoices/{id}', [InvoiceController::class, 'show'])->name('invoices.show');
-    Route::get('/invoices/create', [InvoiceController::class, 'create'])->name('invoices.create');
-    Route::post('/invoices/create-step2', [InvoiceController::class, 'createStep2'])->name('invoices.createStep2');
+    // Trong routes/web.php, Duyệt sửa dòng này:
+
+    Route::get('/invoices/create-step-1', [InvoiceController::class, 'create'])->name('invoices.create');
+    Route::post('/invoices/create-step-2', [InvoiceController::class, 'createStep2'])->name('invoices.createStep2');
     Route::post('/invoices', [InvoiceController::class, 'store'])->name('invoices.store');
     Route::get('/invoices/{invoice}/edit', [InvoiceController::class, 'edit'])->name('invoices.edit');
     Route::put('/invoices/{invoice}', [InvoiceController::class, 'update'])->name('invoices.update');
     Route::delete('/invoices/{invoice}', [InvoiceController::class, 'destroy'])->name('invoices.destroy');
+    Route::get('/invoices/{invoice}', [InvoiceController::class, 'show'])->name('invoices.show');
 
     Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
     Route::get('/payments/create', [PaymentController::class, 'create'])->name('payments.create');

@@ -24,9 +24,8 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            // Kiểm tra nếu tài khoản bị khóa (giả sử 0 là khóa, 1 là hoạt động)
             if (Auth::user()->status == 0) {
-                Auth::logout(); // Quan trọng: Phải logout để hủy session vừa tạo
+                Auth::logout();
                 return back()->withErrors(['email' => 'Tài khoản của bạn đã bị tạm khóa!']);
             }
 
